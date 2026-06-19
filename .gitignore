@@ -1,20 +1,22 @@
-/target
-/debug
-/vendor
+```
+# Rust/Cargo tools and dependencies
+.cargo/bin/
+.rustup/
 
-**/*.rs.bk
+# Dependencies
+target/
+Cargo.lock
 
-*.pdb
+# Logs and temp files
+*.log
+*.tmp
 
-/build
-/build-dir
-/builddir
-/.flatpak-builder
-/flatpak_build
-/repo
+# Environment
+.env
+.env.local
+*.env.*
 
-flatpak-cargo-generator.py
-
-# ides
-.lapce
-.idea
+# Editors
+.vscode/
+.idea/
+```

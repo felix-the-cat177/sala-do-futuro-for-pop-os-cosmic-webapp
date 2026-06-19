@@ -17,7 +17,7 @@ fn main() -> cosmic::iced::Result {
 }
 
 fn init_localizer() {
-    let localizer = webapps::localize::localizer();
+    let localizer = crate::localize::localizer();
     let requested_languages = DesktopLanguageRequester::requested_languages();
 
     if let Err(why) = localizer.select(&requested_languages) {

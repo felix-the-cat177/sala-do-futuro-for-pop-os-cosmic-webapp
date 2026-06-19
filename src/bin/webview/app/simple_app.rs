@@ -1,7 +1,6 @@
 use cef::{Rect, *};
-use clap::Parser as _;
 use std::cell::RefCell;
-use webapps::WebviewArgs;
+use crate::WebviewArgs;
 
 use super::simple_handler::*;
 

@@ -6,7 +6,7 @@ use cosmic::{
     task, theme,
     widget::{self},
 };
-use webapps::fl;
+use crate::localize::fl;
 
 use crate::pages;
 
@@ -16,17 +16,17 @@ pub enum Message {
     DownloadIconsPack,
     OpenIconPickerDialog,
     IconSearch,
-    SetIcon(Option<webapps::Icon>),
+    SetIcon(Option<crate::Icon>),
 }
 
 #[derive(Debug, Clone, Default)]
 pub struct IconPicker {
     pub icon_searching: String,
-    pub icons: Vec<webapps::Icon>,
+    pub icons: Vec<crate::Icon>,
 }
 
 impl IconPicker {
-    pub fn push_icon(&mut self, icon: webapps::Icon) {
+    pub fn push_icon(&mut self, icon: crate::Icon) {
         self.icons.push(icon);
     }
 
@@ -77,7 +77,7 @@ impl IconPicker {
                 let name = self.icon_searching.clone().to_lowercase();
 
                 return task::future(async {
-                    pages::Message::IconsResult(webapps::find_icons(name).await)
+                    pages::Message::IconsResult(crate::find_icons(name).await)
                 });
             }
             Message::SetIcon(icon) => {
@@ -93,12 +93,12 @@ impl IconPicker {
 
         for ico in self.icons.iter() {
             let btn = match ico.clone().icon {
-                webapps::IconType::Raster(icon) => widget::button::custom(widget::image(icon))
+                crate::IconType::Raster(icon) => widget::button::custom(widget::image(icon))
                     .width(Length::Fixed(48.))
                     .height(Length::Fixed(48.))
                     .on_press(Message::SetIcon(Some(ico.clone())))
                     .class(theme::Button::Icon),
-                webapps::IconType::Svg(icon) => widget::button::custom(widget::svg(icon))
+                crate::IconType::Svg(icon) => widget::button::custom(widget::svg(icon))
                     .width(Length::Fixed(48.))
                     .height(Length::Fixed(48.))
                     .on_press(Message::SetIcon(Some(ico.clone())))
@@ -120,7 +120,7 @@ impl IconPicker {
                         .spacing(8)
                         .push(icons_input)
                         .push(button)
-                        .push_maybe(if !webapps::icon_pack_installed() {
+                        .push_maybe(if !crate::icon_pack_installed() {
                             Some(
                                 widget::button::standard(fl!("download"))
                                     .on_press(Message::DownloadIconsPack),

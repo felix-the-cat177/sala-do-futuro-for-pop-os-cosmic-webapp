@@ -38,7 +38,7 @@ use tokio::{
     sync::oneshot,
 };
 use tracing::debug;
-use webapps::{APP_ICON, APP_ID, REPOSITORY, fl};
+use crate::{APP_ICON, APP_ID, REPOSITORY, localize::fl};
 
 static MENU_ID: LazyLock<cosmic::widget::Id> =
     LazyLock::new(|| cosmic::widget::Id::new("responsive-menu"));
@@ -58,7 +58,7 @@ pub enum Message {
     IconPicker(iconpicker::Message),
     IconsResult(Vec<String>),
     ImportThemeFilePicker,
-    Launch(webapps::WebviewArgs),
+    Launch(crate::WebviewArgs),
     LaunchUrl(String),
     LoadThemes,
     OpenFileResult(Vec<String>),
@@ -66,11 +66,11 @@ pub enum Message {
     OpenRepositoryUrl,
     OpenThemeResult(String),
     ConfirmDeletion(widget::segmented_button::Entity),
-    PushIcon(webapps::Icon),
+    PushIcon(crate::Icon),
     ReloadNavbarItems,
     ResetSettings,
-    SaveLauncher(webapps::launcher::WebAppLauncher),
-    SetIcon(Option<webapps::Icon>),
+    SaveLauncher(crate::launcher::WebAppLauncher),
+    SetIcon(Option<crate::Icon>),
     Surface(surface::Action),
     DownloaderStop,
     ToggleContextPage(ContextPage),
@@ -166,8 +166,8 @@ impl Application for QuickWebApps {
             subscriptions.push(Subscription::run_with_id(
                 self.downloader_id,
                 cosmic::iced::stream::channel(4, move |mut channel| async move {
-                    let script = webapps::add_icon_packs_install_script().await;
-                    let mut child = webapps::execute_script(script).await;
+                    let script = crate::add_icon_packs_install_script().await;
+                    let mut child = crate::execute_script(script).await;
                     let stdout = child
                         .stdout
                         .take()
@@ -238,7 +238,7 @@ impl Application for QuickWebApps {
 
                     if let Some(browser) = &app_editor.app_browser {
                         if let Some(icon) = &app_editor.app_icon {
-                            let launcher = webapps::launcher::WebAppLauncher {
+                            let launcher = crate::launcher::WebAppLauncher {
                                 browser: browser.clone(),
                                 name: app_editor.app_title.clone(),
                                 icon: icon.clone(),
@@ -298,7 +298,7 @@ impl Application for QuickWebApps {
             Message::IconsResult(result) => {
                 if let Some(Dialogs::IconPicker(_icon_picker)) = &mut self.dialogs {
                     for path in result {
-                        tasks.push(Task::perform(webapps::image_handle(path), |icon| {
+                        tasks.push(Task::perform(crate::image_handle(path), |icon| {
                             if let Some(icon) = icon {
                                 cosmic::Action::App(Message::PushIcon(icon))
                             } else {
@@ -342,7 +342,7 @@ impl Application for QuickWebApps {
                 });
             }
             Message::Launch(args) => {
-                let Some(cef_path) = webapps::cef_path() else {
+                let Some(cef_path) = crate::cef_path() else {
                     return cosmic::Task::none();
                 };
 
@@ -373,7 +373,7 @@ impl Application for QuickWebApps {
                     self.themes_list.push(Theme::Dark);
                 }
 
-                let Some(folder) = webapps::themes_path("") else {
+                let Some(folder) = crate::themes_path("") else {
                     return Task::none();
                 };
                 let dir = read_dir(folder);
@@ -415,7 +415,7 @@ impl Application for QuickWebApps {
             Message::OpenFileResult(file_paths) => {
                 for icon_path in file_paths {
                     tasks.push(Task::perform(
-                        webapps::image_handle(icon_path.to_string()),
+                        crate::image_handle(icon_path.to_string()),
                         |icon| cosmic::Action::App(Message::SetIcon(icon)),
                     ))
                 }
@@ -434,7 +434,7 @@ impl Application for QuickWebApps {
                     if let Some(file_name) = from_path.file_name() {
                         let file_name = file_name.to_string_lossy();
 
-                        if let Some(dest) = webapps::themes_path(&file_name) {
+                        if let Some(dest) = crate::themes_path(&file_name) {
                             if !dest.exists() {
                                 let _ = std::fs::copy(from_path, dest);
                             }
@@ -459,7 +459,7 @@ impl Application for QuickWebApps {
                     .data::<Page>(Page::Editor(AppEditor::default()))
                     .activate();
 
-                webapps::launcher::installed_webapps()
+                crate::launcher::installed_webapps()
                     .into_iter()
                     .for_each(|app| {
                         self.nav
@@ -483,7 +483,7 @@ impl Application for QuickWebApps {
             }
             Message::SaveLauncher(launcher) => {
                 if let Some(location) =
-                    webapps::database_path(&format!("{}.ron", launcher.browser.app_id.as_ref()))
+                    crate::database_path(&format!("{}.ron", launcher.browser.app_id.as_ref()))
                 {
                     let content = to_string_pretty(&launcher, ron::ser::PrettyConfig::default());
 

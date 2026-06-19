@@ -1,5 +1,5 @@
 pub mod app;
-use webapps::browser::Browser;
+use crate::browser::Browser;
 
 fn main() -> Result<(), &'static str> {
     let _library = app::load_cef();
