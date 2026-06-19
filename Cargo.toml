@@ -1,23 +1,23 @@
 [package]
-name = "webapps"
-version = "3.0.0"
+name = "sala-do-futuro-webapp"
+version = "1.0.0"
 edition = "2024"
-description = "Web applications at your fingertips"
-authors = ["hepp3n"]
+description = "Sala do Futuro - Web application for COSMIC and Pop!_OS"
+authors = ["felix-the-cat177"]
 license = "GPL-3.0-only"
-repository = "https://github.com/cosmic-utils/web-apps"
-default-run = "dev-heppen-webapps"
+repository = "https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp"
+default-run = "sala-do-futuro-webapp"
 
 [[bin]]
-name = "dev-heppen-webapps"
-path = "src/bin/dev-heppen-webapps/main.rs"
+name = "sala-do-futuro-webapp"
+path = "src/bin/sala-do-futuro-webapp/main.rs"
 
 [[bin]]
-name = "dev-heppen-webapps-webview"
+name = "sala-do-futuro-webview"
 path = "src/bin/webview/main.rs"
 
 [[bin]]
-name = "dev-heppen-webapps-webview-helper"
+name = "sala-do-futuro-webview-helper"
 path = "src/bin/webview/helper.rs"
 
 [dependencies]
