@@ -1,72 +1,126 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
   <br>
-  <img alt="Quick Web Apps" src="https://raw.githubusercontent.com/cosmic-utils/web-apps/master/resources/icons/hicolor/256x256/apps/dev.heppen.webapps.png" width="192" />
-  <h1>Quick Web Apps</h1>
+  <img alt="Sala do Futuro" src="resources/icons/hicolor/256x256/apps/sala-do-futuro-webapp.svg" width="192" />
+  <h1>Sala do Futuro</h1>
 
-  <p>Web App Manager for the COSMIC™ desktop written with love and libcosmic. Allow you to simply create web applications from given url working inside separate window. With some customization options.</p>
+  <p>Aplicativo web educacional para a Sala do Futuro - Pop!_OS COSMIC. Navegador Chromium com aceleracao de hardware e API Vulkan para melhor performance.</p>
 
   <br>
 
-  <img alt="Quick Web Apps" src="https://raw.githubusercontent.com/cosmic-utils/web-apps/master/resources/screenshots/window.png" width="512">
+  <img alt="Sala do Futuro" src="https://raw.githubusercontent.com/cosmic-utils/web-apps/master/resources/screenshots/window.png" width="512">
 
 <br><br><br>
 
-  <a href='https://flathub.org/apps/dev.heppen.webapps'>
-    <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?locale=en'/>
+  <a href='https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp'>
+    <img width='240' alt='Download on GitHub' src='https://img.shields.io/badge/GitHub-Download-blue?style=for-the-badge&logo=github'/>
   </a>
 </div>
 
-# Support
+# Sobre
 
-Hey! This app is fully distributed for **free** with **free license**.
-I'm doing it with **passion** in my **free time**.
-Trying to keep it stable and bug free as long as I can.
-However, would be nice if you could bring me some coffee,
-so I can work longer on it :) Thanks! :)
+A **Sala do Futuro** é um aplicativo web educacional desenvolvido exclusivamente para o ambiente COSMIC no Pop!_OS. Este projeto é um fork do [web-apps for cosmic](https://github.com/cosmic-utils/web-apps), adaptado para atender as necessidades da Sala do Futuro.
 
-# Installation
+## Funcionalidades
 
-Clone the repository:
+- 🚀 **Navegador Chromium integrado** - Maior compatibilidade com sites modernos
+- ⚡ **API Vulkan** - Aceleracao de hardware para melhor performance
+- 🎨 **Integracao com COSMIC** - Interface nativa e integrada ao sistema
+- 🔔 **Notificacoes em segundo plano** - Receba alertas de tarefas, redacoes e provas
+- 📦 **Pacote .deb** - Facilita a instalacao no Pop!_OS
 
-`git clone https://github.com/cosmic-utils/web-apps.git`
+# Requisitos
 
-cd into folder
+- Pop!_OS com ambiente COSMIC
+- Rust (versao mais recente)
+- Dependencias do CEF (Chromium Embedded Framework)
 
-`cd web-apps`
+# Instalacao
 
-Building is simple. Make sure you have configured `flathub` remote as `--user`.
+## Metodo 1: Construcao manual
 
-`flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo`
+Clone o repositorio:
 
-Install `flatpak-builder`.
+```bash
+git clone https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp.git
+cd sala-do-futuro-for-pop-os-cosmic-webapp
+```
 
-`flatpak install -y flathub org.flatpak.Builder`
+Construa o projeto:
 
-and start the process:
+```bash
+cargo build --release
+```
 
-`flatpak run --command=flathub-build org.flatpak.Builder --install dev.heppen.webapps.json`
+## Metodo 2: Usando o pacote .deb
 
-### Launching
+Execute o script de construcao do pacote:
 
-`flatpak run dev.heppen.webapps`
+```bash
+./scripts/build-deb.sh
+```
 
-### Uninstall
+Instale o pacote gerado:
 
-`flatpak uninstall dev.heppen.webapps`
+```bash
+sudo dpkg -i sala-do-futuro-webapp_1.0.0_amd64.deb
+```
 
-# Usage
+# Uso
 
-Created Web Apps are using WebKitGTK rendering engine.
-You can create new Web App by filling the form in the editor window. 
-To be able to create Web App you need to provide:
-- valid URL (starting with http:// or https://).
-- name of the application.
-- icon (press the icon button to choose one from your system).
-- the category of the web app
+Após a instalacao, o aplicativo estará disponível no menu de aplicativos do COSMIC como "Sala do Futuro".
 
-For creating launcher, the application uses [DynamicLauncher Portal](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.DynamicLauncher.html). Make sure you have this portal supported on your system.
+Para acessar a plataforma educacional:
+- URL padrao: `https://saladofuturo.educacao.sp.gov.br/escolha-de-perfil`
 
-# License
+# Estrutura do Projeto
 
-Code is distributed with [GPL-3.0 license](https://github.com/cosmic-utils/web-apps/blob/master/LICENSE)
+```
+sala-do-futuro-webapp/
+├── src/
+│   ├── bin/
+│   │   ├── sala-do-futuro-webapp/  # Aplicativo principal
+│   │   └── webview/                # Navegador Chromium
+│   ├── browser.rs                  # Configuracao do navegador
+│   ├── launcher.rs                 # Lancador de webapps
+│   └── lib.rs                      # Biblioteca compartilhada
+├── resources/
+│   ├── icons/                      # Icones do aplicativo
+│   ├── dev.heppen.webapps.desktop  # Arquivo desktop
+│   └── dev.heppen.webapps.metainfo.xml  # Metadados
+├── scripts/
+│   └── build-deb.sh                # Script de build .deb
+└── Cargo.toml                      # Configuracao Rust
+```
+
+# Integracao com COSMIC
+
+O aplicativo utiliza a `libcosmic` para se integrar perfeitamente ao ambiente COSMIC:
+
+- Painel de aplicacoes com a logo da Sala do Futuro
+- Notificacoes em segundo plano para atividades escolares
+- Temas personalizados
+- Suporte a modo claro/escuro
+
+# Desenvolvimento
+
+Este projeto é um fork do [web-apps for cosmic](https://github.com/cosmic-utils/web-apps) e está sendo adaptado exclusivamente para a Sala do Futuro.
+
+## Contribuindo
+
+Contribuicoes sao bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+
+# Licenca
+
+GPL-3.0-only - Mesmo licenciamento do projeto original.
+
+# Links Uteis
+
+- [Repositorio Original](https://github.com/cosmic-utils/web-apps)
+- [libcosmic](https://github.com/pop-os/libcosmic)
+- [Pop!_OS](https://pop.system76.com/)
+- [COSMIC Desktop](https://cosmic.system76.com/)
+
+---
+
+Desenvolvido com ❤️ para a Sala do Futuro
