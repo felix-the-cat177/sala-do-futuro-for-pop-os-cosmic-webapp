@@ -1,8 +1,8 @@
 [package]
 name = "sala-do-futuro-webapp"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2024"
-description = "Sala do Futuro - Web application for COSMIC and Pop!_OS"
+description = "Sala do Futuro - Web application for COSMIC and Pop!_OS with integrated notifications and panel support"
 authors = ["felix-the-cat177"]
 license = "GPL-3.0-only"
 repository = "https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp"
@@ -19,6 +19,14 @@ path = "src/bin/webview/main.rs"
 [[bin]]
 name = "sala-do-futuro-webview-helper"
 path = "src/bin/webview/helper.rs"
+
+[[bin]]
+name = "cosmic-panel-item"
+path = "src/bin/cosmic-panel-item/main.rs"
+
+[[bin]]
+name = "sala-do-futuro-notification-daemon"
+path = "src/bin/notification-daemon/main.rs"
 
 [dependencies]
 # dynamic launcher portal
@@ -55,11 +63,15 @@ tracing-subscriber = { version = "0.3", default-features = false, features = [
     "std",
     "fmt",
     "env-filter",
+    "json",
 ] }
 url = "2.5"
 urlencoding = "2.1"
 usvg = "0.47"
 walkdir = "2.5"
+# D-Bus integration for notifications
+zbus = { version = "4", features = ["tokio"] }
+zvariant = "4"
 
 [features]
 default = ["linux-x11"]

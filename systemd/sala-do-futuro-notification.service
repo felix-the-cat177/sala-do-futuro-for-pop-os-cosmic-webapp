@@ -1,0 +1,18 @@
+[Unit]
+Description=Sala do Futuro - Background Service with Notification Support
+Documentation=https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp
+After=graphical-session-pre.target
+PartOf=graphical-session-pre.target
+
+[Service]
+Type=simple
+Environment="DISPLAY=:0"
+Environment="WAYLAND_DISPLAY=wayland-0"
+ExecStart=%h/.local/bin/sala-do-futuro-notification-daemon
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical-session.target

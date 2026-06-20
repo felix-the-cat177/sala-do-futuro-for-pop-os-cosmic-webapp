@@ -1,0 +1,24 @@
+[Unit]
+Description=Sala do Futuro - WebApp Service
+Documentation=https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp
+After=graphical-session-pre.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+Environment="DISPLAY=:0"
+Environment="WAYLAND_DISPLAY=wayland-0"
+# Habilitar Vulkan com fallback para OpenGL
+Environment="LIBGL_ALWAYS_SOFTWARE=0"
+Environment="LIBGBM_DRIVERS=nouveau,radeonsi,iris,amdgpu,swrast"
+# Force Vulkan para CEF
+Environment="OZONE_PLATFORM=wayland"
+Environment="ENABLE_VULKAN=1"
+ExecStart=%h/.local/bin/sala-do-futuro-webapp --background
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical-session.target

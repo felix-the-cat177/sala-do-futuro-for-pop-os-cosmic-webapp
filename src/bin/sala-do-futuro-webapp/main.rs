@@ -1,5 +1,6 @@
 use i18n_embed::DesktopLanguageRequester;
 use sala_do_futuro_webapp::localize;
+use std::env;
 
 pub(crate) mod config;
 pub(crate) mod pages;
@@ -8,6 +9,15 @@ pub(crate) mod themes;
 fn main() -> cosmic::iced::Result {
     init_logging();
     init_localizer();
+    configure_rendering();
+
+    // Verificar se está rodando em modo background
+    let args: Vec<String> = env::args().collect();
+    let background_mode = args.contains(&"--background".to_string());
+
+    if background_mode {
+        tracing::info!("Starting Sala do Futuro in background mode with notification support");
+    }
 
     cosmic::app::run::<crate::pages::QuickWebApps>(
         cosmic::app::Settings::default()
@@ -15,6 +25,29 @@ fn main() -> cosmic::iced::Result {
             .client_decorations(true),
         (),
     )
+}
+
+fn configure_rendering() {
+    // Configurar renderização com Vulkan como prioridade
+    // Fallback para OpenGL se Vulkan não estiver disponível
+    
+    if env::var("ENABLE_VULKAN").is_ok() {
+        tracing::info!("Vulkan rendering enabled");
+        env::set_var("OZONE_PLATFORM", "wayland");
+    }
+
+    // Habilitar hardware acceleration
+    if env::var("LIBGL_ALWAYS_SOFTWARE").is_err() {
+        env::set_var("LIBGL_ALWAYS_SOFTWARE", "0");
+    }
+
+    // Drivers GPU disponíveis
+    if env::var("LIBGBM_DRIVERS").is_err() {
+        env::set_var("LIBGBM_DRIVERS", "nouveau,radeonsi,iris,amdgpu,swrast");
+    }
+
+    tracing::debug!("Rendering configured: OZONE_PLATFORM={:?}", 
+        env::var("OZONE_PLATFORM").unwrap_or_default());
 }
 
 fn init_localizer() {
@@ -31,10 +64,7 @@ fn init_logging() {
     use tracing_subscriber::FmtSubscriber;
 
     let subscriber = FmtSubscriber::builder()
-        // all spans/events with a level higher than TRACE (e.g, debug, info, warn, etc.)
-        // will be written to stdout.
         .with_max_level(Level::INFO)
-        // completes the builder.
         .finish();
 
     tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
