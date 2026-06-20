@@ -8,7 +8,7 @@
 
   <br>
 
-  <img alt="Sala do Futuro" src="[https://raw.githubusercontent.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp/refs/heads/main/resources/screenshots/Screenshot_2026-06-20_12-06-04.png]" width="512">
+  <img alt="Sala do Futuro" src="resources/screenshots/Screenshot_2026-06-20_12-06-04.png" width="512">
 
 <br><br><br>
 
