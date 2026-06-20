@@ -13,7 +13,7 @@ echo ""
 
 # Build em release mode
 echo "Compilando..."
-cargo build --release 2>&1 | tail -5
+cargo build --release
 
 # Criar estrutura do pacote Debian
 DEB_DIR="debian-package"
@@ -62,7 +62,7 @@ Version: $VERSION
 Section: utils
 Priority: optional
 Architecture: $ARCH
-Depends: libgtk-3-0, libwebkit2gtk-4.0-37
+Depends: libgtk-3-0, libwebkit2gtk-4.1-0
 Recommends: libcosmic0
 Maintainer: felix-the-cat177
 Description: Sala do Futuro - Web application for COSMIC and Pop!_OS
