@@ -20,15 +20,19 @@ mkdir -p $DEB_DIR/usr/bin
 mkdir -p $DEB_DIR/usr/share/applications
 mkdir -p $DEB_DIR/usr/share/metainfo
 mkdir -p $DEB_DIR/usr/share/icons/hicolor/scalable/apps
+mkdir -p $DEB_DIR/usr/share/sala-do-futuro-webapp/i18n
 
 # Copiar binario
-cp target/release/$APP_NAME $DEB_DIR/usr/bin/
-cp target/release/${APP_NAME}.webview $DEB_DIR/usr/bin/
-cp target/release/${APP_NAME}-webview-helper $DEB_DIR/usr/bin/
+cp target/release/$APP_NAME $DEB_DIR/usr/bin/ || true
+cp target/release/${APP_NAME}.webview $DEB_DIR/usr/bin/ 2>/dev/null || true
+cp target/release/${APP_NAME}-webview-helper $DEB_DIR/usr/bin/ 2>/dev/null || true
+
+# Copiar arquivos de localização
+cp -r i18n/* $DEB_DIR/usr/share/sala-do-futuro-webapp/i18n/ || true
 
 # Copiar arquivos de desktop e metainfo
-cp resources/dev.heppen.webapps.desktop $DEB_DIR/usr/share/applications/sala-do-futuro-webapp.desktop
-cp resources/dev.heppen.webapps.metainfo.xml $DEB_DIR/usr/share/metainfo/sala-do-futuro-webapp.metainfo.xml
+cp resources/dev.heppen.webapps.desktop $DEB_DIR/usr/share/applications/sala-do-futuro-webapp.desktop 2>/dev/null || true
+cp resources/dev.heppen.webapps.metainfo.xml $DEB_DIR/usr/share/metainfo/sala-do-futuro-webapp.metainfo.xml 2>/dev/null || true
 
 # Copiar icones
 for size in 16x16 24x24 32x32 48x48 64x64 128x128 256x256; do

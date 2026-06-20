@@ -11,6 +11,10 @@ Cargo.lock
 *.log
 *.tmp
 
+# Build artifacts
+debian-package/
+*.deb
+
 # Environment
 .env
 .env.local
