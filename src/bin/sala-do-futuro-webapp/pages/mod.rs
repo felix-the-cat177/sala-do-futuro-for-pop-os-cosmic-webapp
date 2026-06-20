@@ -12,6 +12,7 @@ use cosmic::{
         Alignment, Length, Subscription,
         alignment::Horizontal,
         futures::{SinkExt as _, future},
+        stream::channel,
     },
     surface, task, theme,
     widget::{
@@ -163,9 +164,10 @@ impl Application for QuickWebApps {
         );
 
         if self.downloader_started {
-            subscriptions.push(Subscription::run_with_id(
-                self.downloader_id,
-                cosmic::iced::stream::channel(4, move |mut channel| async move {
+            let downloader_id = self.downloader_id;
+            subscriptions.push(Subscription::run_with(
+                downloader_id,
+                |_id| channel(4, move |mut channel| async move {
                     let script = sala_do_futuro_webapp::add_icon_packs_install_script().await;
                     let mut child = sala_do_futuro_webapp::execute_script(script).await;
                     let stdout = child
@@ -697,7 +699,7 @@ impl QuickWebApps {
     fn about(&self) -> Element<'_, Message> {
         let cosmic_theme::Spacing { space_xxs, .. } = theme::active().cosmic().spacing;
 
-        widget::column()
+        widget::Column::new()
             .push(widget::image(widget::image::Handle::from_bytes(APP_ICON)))
             .push(widget::text::title3(fl!("app")))
             .push(
@@ -706,7 +708,7 @@ impl QuickWebApps {
                     .padding(0),
             )
             .push(
-                widget::column()
+                widget::Column::new()
                     .push(widget::text::title3(fl!("support-me")))
                     .push(widget::text::body(fl!("support-body")))
                     .push(widget::button::link("github.com/sponsors/hepp3n").on_press(
@@ -729,7 +731,7 @@ impl QuickWebApps {
     fn settings(&self) -> Element<'_, Message> {
         let cosmic_theme::Spacing { space_xxs, .. } = theme::active().cosmic().spacing;
 
-        widget::column()
+        widget::Column::new()
             .push(
                 widget::settings::section()
                     .add(widget::settings::item(

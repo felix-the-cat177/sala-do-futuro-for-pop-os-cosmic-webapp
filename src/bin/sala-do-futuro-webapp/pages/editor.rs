@@ -237,11 +237,11 @@ impl AppEditor {
 
     pub fn view(&self) -> Element<'_, Message> {
         widget::container(
-            widget::column()
+            widget::Column::new()
                 .spacing(24)
                 .push(
                     widget::container(
-                        widget::row()
+                        widget::Row::new()
                             .spacing(12)
                             .push(
                                 widget::container(self.icon_element(self.selected_icon.clone()))
@@ -251,7 +251,7 @@ impl AppEditor {
                             )
                             .push(
                                 widget::container(
-                                    widget::column()
+                                    widget::Column::new()
                                         .spacing(12)
                                         .push(widget::text::title3(format!(
                                             "{}: {}",
@@ -277,7 +277,7 @@ impl AppEditor {
                     .class(style::Container::Card),
                 )
                 .push(
-                    widget::row()
+                    widget::Row::new()
                         .spacing(8)
                         .push(
                             widget::text_input(fl!("title"), &self.app_title)
@@ -317,7 +317,7 @@ impl AppEditor {
                         ))
                         .add(widget::settings::item(
                             fl!("window-size"),
-                            widget::row()
+                            widget::Row::new()
                                 .spacing(8)
                                 .push(
                                     widget::text_input(
@@ -345,9 +345,9 @@ impl AppEditor {
                         )),
                 )
                 .push(
-                    widget::row()
+                    widget::Row::new()
                         .spacing(8)
-                        .push(widget::horizontal_space())
+                        .push(widget::Space::with_width(cosmic::iced::Length::Fill))
                         .push_maybe(if !self.is_installed {
                             None
                         } else {
