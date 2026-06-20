@@ -855,5 +855,10 @@ pub fn cef_path() -> Option<PathBuf> {
         return Some(installed_cef);
     }
 
+    let debian_cef = PathBuf::from("/usr/share/cef");
+    if debian_cef.exists() {
+        return Some(debian_cef);
+    }
+
     None
 }

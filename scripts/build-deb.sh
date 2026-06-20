@@ -32,9 +32,25 @@ cp target/release/$APP_NAME $DEB_DIR/usr/bin/
 cp target/release/cosmic-panel-item $DEB_DIR/usr/bin/
 cp target/release/sala-do-futuro-notification-daemon $DEB_DIR/usr/bin/
 
-# Copiar binários auxiliares
-cp target/release/sala-do-futuro-webview $DEB_DIR/usr/bin/ 2>/dev/null || true
-cp target/release/sala-do-futuro-webview-helper $DEB_DIR/usr/bin/ 2>/dev/null || true
+# Copiar bibliotecas do CEF (necessárias para o navegador Chromium)
+echo "Copiando bibliotecas CEF..."
+mkdir -p $DEB_DIR/usr/share/cef
+CEF_SRC_DIR=$(find target -name "cef_linux_x86_64" -type d | head -n 1)
+if [ -n "$CEF_SRC_DIR" ] && [ -d "$CEF_SRC_DIR" ]; then
+    cp -r $CEF_SRC_DIR/. $DEB_DIR/usr/share/cef/
+else
+    echo "⚠️  AVISO: Diretório do CEF (cef_linux_x86_64) não encontrado em target!"
+fi
+
+# Copiar os binários do webview e helper para o diretório do CEF com o nome do APP_ID esperado
+echo "Instalando webview e helper no diretório do CEF..."
+cp target/release/sala-do-futuro-webview $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview 2>/dev/null || true
+cp target/release/sala-do-futuro-webview-helper $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview-helper 2>/dev/null || true
+
+# Criar link simbólico para o webview em /usr/bin
+echo "Criando link simbólico para o webview..."
+mkdir -p $DEB_DIR/usr/bin
+ln -sf ../share/cef/dev.heppen.webapps.webview $DEB_DIR/usr/bin/dev.heppen.webapps.webview
 
 # Copiar serviços systemd
 cp systemd/sala-do-futuro-notification.service $DEB_DIR/lib/systemd/user/ 2>/dev/null || true
@@ -76,6 +92,7 @@ echo "Ajustando permissões dos arquivos..."
 find $DEB_DIR -type d -exec chmod 755 {} \;
 find $DEB_DIR -type f -exec chmod 644 {} \;
 chmod 755 $DEB_DIR/usr/bin/*
+chmod 755 $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview* 2>/dev/null || true
 
 # Construir pacote .deb
 cd $DEB_DIR
