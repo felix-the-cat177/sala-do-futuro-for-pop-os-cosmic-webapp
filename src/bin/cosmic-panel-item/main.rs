@@ -70,13 +70,13 @@ impl cosmic::Application for AppletModel {
             // Desenhar um pequeno ponto vermelho ao lado para indicar notificações
             let dot = widget::text("●")
                 .size(14)
-                .color([1.0, 0.2, 0.2, 1.0]);
+                .color(cosmic::iced::Color::from_rgb(1.0, 0.2, 0.2));
 
             widget::row::with_children(vec![
                 button.into(),
                 dot.into(),
             ])
-            .align_items(cosmic::iced::Alignment::Center)
+            .align_y(cosmic::iced::alignment::Vertical::Center)
             .spacing(2)
             .into()
         } else {
@@ -92,7 +92,7 @@ impl cosmic::Application for AppletModel {
 
     fn subscription(&self) -> Subscription<Self::Message> {
         Subscription::run(|| {
-            cosmic::iced::stream::channel(10, move |mut channel| async move {
+            cosmic::iced::stream::channel(10, move |mut channel: cosmic::iced::stream::Sender<Message>| async move {
                 // Tenta se conectar ao D-Bus de sessão
                 let conn = match Connection::session().await {
                     Ok(c) => c,
