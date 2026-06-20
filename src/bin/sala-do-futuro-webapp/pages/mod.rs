@@ -38,7 +38,7 @@ use tokio::{
     sync::oneshot,
 };
 use tracing::debug;
-use sala_do_futuro_webapp::{APP_ICON, APP_ID, REPOSITORY, localize::fl};
+use sala_do_futuro_webapp::{fl, APP_ICON, APP_ID, REPOSITORY};
 
 static MENU_ID: LazyLock<cosmic::widget::Id> =
     LazyLock::new(|| cosmic::widget::Id::new("responsive-menu"));

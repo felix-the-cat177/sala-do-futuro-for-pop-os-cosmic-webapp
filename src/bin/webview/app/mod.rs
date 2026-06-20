@@ -1,5 +1,6 @@
 //! Rust port of the [`cefsimple`](https://github.com/chromiumembedded/cef/tree/master/tests/cefsimple) example.
 
+use clap::Parser;
 use cef::*;
 use sala_do_futuro_webapp::{DESKTOP_UA, MOBILE_UA, WebviewArgs};
 

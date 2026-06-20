@@ -8,7 +8,7 @@ use cosmic::{
 use rand::{RngExt as _, rng};
 use strum::IntoEnumIterator as _;
 use sala_do_futuro_webapp::{
-    Category, localize::fl, Icon as WebappIcon, handle_icon,
+    fl, Category, Icon as WebappIcon, handle_icon, generate_icon,
     launcher::{webapp_icon_valid},
 };
 
@@ -164,7 +164,7 @@ impl AppEditor {
 
                     if let Some(icon) = icon {
                         if webapp_icon_valid(&icon) {
-                            let ico = sala_do_futuro_webapp::handle_icon(icon.path);
+                            let ico = sala_do_futuro_webapp::handle_icon(icon.path.into());
 
                             return task::future(async {
                                 Action::App(pages::Message::SetIcon(ico.into()))
@@ -207,7 +207,7 @@ impl AppEditor {
 
     pub fn update_icon(&mut self, icon: Option<WebappIcon>) {
         if let Some(icon) = icon {
-            self.selected_icon = Some(handle_icon(icon.path.clone()));
+            self.selected_icon = Some(handle_icon(icon.path.clone().into()));
             self.app_icon = Some(icon);
         }
     }

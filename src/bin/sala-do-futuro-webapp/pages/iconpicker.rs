@@ -6,7 +6,7 @@ use cosmic::{
     task, theme,
     widget::{self},
 };
-use sala_do_futuro_webapp::localize::fl;
+use sala_do_futuro_webapp::fl;
 
 use crate::pages;
 

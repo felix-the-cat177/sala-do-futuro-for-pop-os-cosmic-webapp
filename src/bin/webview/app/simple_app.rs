@@ -1,3 +1,4 @@
+use clap::Parser;
 use cef::{Rect, *};
 use std::cell::RefCell;
 use sala_do_futuro_webapp::WebviewArgs;
