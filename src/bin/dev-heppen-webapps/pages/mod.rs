@@ -167,7 +167,7 @@ impl Application for QuickWebApps {
             let downloader_id = self.downloader_id;
             subscriptions.push(Subscription::run_with(
                 downloader_id,
-                |_id| channel(4, move |mut channel| async move {
+                |_id| channel(4, move |mut channel: cosmic::iced::futures::channel::mpsc::Sender<Message>| async move {
                     let script = sala_do_futuro_webapp::add_icon_packs_install_script().await;
                     let mut child = sala_do_futuro_webapp::execute_script(script).await;
                     let stdout = child

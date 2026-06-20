@@ -347,7 +347,7 @@ impl AppEditor {
                 .push(
                     widget::Row::new()
                         .spacing(8)
-                        .push(widget::Space::with_width(cosmic::iced::Length::Fill))
+                        .push(widget::Space::new().width(cosmic::iced::Length::Fill))
                         .push_maybe(if !self.is_installed {
                             None
                         } else {

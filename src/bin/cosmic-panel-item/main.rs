@@ -2,6 +2,7 @@
 // Integração real com o painel do COSMIC usando libcosmic
 
 use cosmic::iced::{window::Id, Subscription};
+use cosmic::iced::futures::SinkExt;
 use cosmic::prelude::*;
 use cosmic::widget;
 use std::process::Command;
@@ -70,7 +71,7 @@ impl cosmic::Application for AppletModel {
             // Desenhar um pequeno ponto vermelho ao lado para indicar notificações
             let dot = widget::text("●")
                 .size(14)
-                .style(cosmic::theme::Text::Color(cosmic::iced::Color::from_rgb(1.0, 0.2, 0.2)));
+                .class(cosmic::iced::Color::from_rgb(1.0, 0.2, 0.2));
 
             widget::row::with_children(vec![
                 button.into(),
@@ -92,7 +93,7 @@ impl cosmic::Application for AppletModel {
 
     fn subscription(&self) -> Subscription<Self::Message> {
         Subscription::run(|| {
-            cosmic::iced::stream::channel(10, move |mut channel: cosmic::iced::futures::channel::mpsc::Sender<Message>| async move {
+            cosmic::iced::stream::channel(10, move |mut channel| async move {
                 // Tenta se conectar ao D-Bus de sessão
                 let conn = match Connection::session().await {
                     Ok(c) => c,
