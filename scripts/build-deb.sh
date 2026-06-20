@@ -63,6 +63,7 @@ cp -r i18n/* $DEB_DIR/usr/share/sala-do-futuro-webapp/i18n/ 2>/dev/null || true
 # Copiar arquivos de desktop e metainfo
 echo "Copiando recursos..."
 cp resources/dev.heppen.webapps.desktop $DEB_DIR/usr/share/applications/sala-do-futuro-webapp.desktop 2>/dev/null || true
+cp resources/dev.heppen.webapps.applet.desktop $DEB_DIR/usr/share/applications/dev.heppen.webapps.applet.desktop 2>/dev/null || true
 cp resources/dev.heppen.webapps.metainfo.xml $DEB_DIR/usr/share/metainfo/sala-do-futuro-webapp.metainfo.xml 2>/dev/null || true
 
 # Copiar ícones

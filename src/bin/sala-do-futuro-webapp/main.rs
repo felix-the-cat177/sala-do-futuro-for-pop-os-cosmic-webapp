@@ -10,6 +10,19 @@ pub(crate) mod themes;
 
 fn main() -> cosmic::iced::Result {
     init_logging();
+
+    // Verificar se a Sala do Futuro já está rodando
+    let socket_path = dirs::runtime_dir()
+        .unwrap_or_else(std::env::temp_dir)
+        .join("sala-do-futuro-webview.sock");
+
+    if let Ok(mut stream) = std::os::unix::net::UnixStream::connect(&socket_path) {
+        use std::io::Write;
+        tracing::info!("Sala do Futuro já está rodando. Requisitando foco e saindo.");
+        let _ = stream.write_all(b"focus");
+        return Ok(());
+    }
+
     init_localizer();
     configure_rendering();
 

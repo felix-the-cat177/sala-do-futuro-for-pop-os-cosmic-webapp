@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Sala do Futuro Panel
+Comment=Miniaplicativo da Sala do Futuro para o Painel do COSMIC
+Type=Application
+Icon=sala-do-futuro-webapp
+Exec=cosmic-panel-item %F
+Terminal=false
+StartupNotify=true
+Categories=COSMIC
+Keywords=COSMIC;Sala;Futuro;
+NoDisplay=true
+X-CosmicApplet=true
+X-CosmicHoverPopup=Auto
+MimeType=

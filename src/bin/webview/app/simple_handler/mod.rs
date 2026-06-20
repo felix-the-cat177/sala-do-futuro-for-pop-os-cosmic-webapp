@@ -11,7 +11,8 @@ mod linux;
 use linux::*;
 
 fn platform_show_window(_browser: Option<&mut Browser>) {
-    todo!("Implement platform_show_window for non-macOS platforms");
+    // Under COSMIC/Wayland, the Views window.show() call is sufficient.
+    println!("platform_show_window called");
 }
 
 static SIMPLE_HANDLER_INSTANCE: OnceLock<Weak<Mutex<SimpleHandler>>> = OnceLock::new();

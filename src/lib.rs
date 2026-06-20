@@ -1,5 +1,7 @@
 use clap::Parser;
-use cosmic::{iced_core, iced_winit::graphics::image::image_rs::ImageReader, widget};
+use cosmic::iced::core as iced_core;
+use cosmic::widget;
+use image::ImageReader;
 use rand::RngExt;
 use serde::{Deserialize, Serialize};
 use std::{

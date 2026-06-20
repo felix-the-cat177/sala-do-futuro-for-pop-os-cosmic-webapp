@@ -77,7 +77,42 @@ pub fn run_main(main_args: &MainArgs, cmd_line: &CommandLine, sandbox_info: *mut
         1
     );
 
+    let socket_path = dirs::runtime_dir()
+        .unwrap_or_else(std::env::temp_dir)
+        .join("sala-do-futuro-webview.sock");
+
+    let _ = std::fs::remove_file(&socket_path);
+
+    let socket_path_clone = socket_path.clone();
+    std::thread::spawn(move || {
+        let listener = match std::os::unix::net::UnixListener::bind(&socket_path_clone) {
+            Ok(l) => l,
+            Err(e) => {
+                eprintln!("Failed to bind Unix socket: {}", e);
+                return;
+            }
+        };
+
+        for stream in listener.incoming() {
+            match stream {
+                Ok(_) => {
+                    println!("Received focus request on Unix socket");
+                    if let Some(handler) = simple_handler::SimpleHandler::instance() {
+                        if let Ok(mut lock) = handler.lock() {
+                            lock.show_main_window();
+                        }
+                    }
+                }
+                Err(e) => {
+                    eprintln!("Error on Unix socket incoming connection: {}", e);
+                }
+            }
+        }
+    });
+
     run_message_loop();
+
+    let _ = std::fs::remove_file(&socket_path);
 
     shutdown();
 }

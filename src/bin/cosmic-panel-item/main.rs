@@ -1,62 +1,168 @@
-// Sala do Futuro - COSMIC Panel Item
-// Integração com o painel do COSMIC - simplified widget
-// Para produção completa, use libcosmic com extensão de painel
+// Sala do Futuro - COSMIC Panel Item Applet
+// Integração real com o painel do COSMIC usando libcosmic
 
-use std::sync::{Arc, Mutex};
-use std::process::{Command, Stdio};
-use tracing::{info, debug};
+use cosmic::iced::{window::Id, Subscription};
+use cosmic::prelude::*;
+use cosmic::widget;
+use std::process::Command;
+use std::time::Duration;
+use tokio::time::interval;
+use zbus::Connection;
 
-#[derive(Clone)]
-pub struct PanelApp {
-    has_notification: Arc<Mutex<bool>>,
+#[zbus::proxy(
+    interface = "org.saladofuturo.NotificationDaemon",
+    default_service = "org.saladofuturo.NotificationDaemon",
+    default_path = "/org/saladofuturo/NotificationDaemon"
+)]
+trait NotificationDaemon {
+    #[zbus(property)]
+    fn has_notification(&self) -> zbus::Result<bool>;
 }
 
-impl PanelApp {
-    pub fn new() -> Self {
-        PanelApp {
-            has_notification: Arc::new(Mutex::new(false)),
+pub struct AppletModel {
+    core: cosmic::Core,
+    has_notification: bool,
+}
+
+#[derive(Debug, Clone)]
+pub enum Message {
+    AppletClicked,
+    SetNotificationStatus(bool),
+}
+
+impl cosmic::Application for AppletModel {
+    type Executor = cosmic::executor::Default;
+    type Flags = ();
+    type Message = Message;
+
+    const APP_ID: &'static str = "dev.heppen.webapps.applet";
+
+    fn core(&self) -> &cosmic::Core {
+        &self.core
+    }
+
+    fn core_mut(&mut self) -> &mut cosmic::Core {
+        &mut self.core
+    }
+
+    fn init(
+        core: cosmic::Core,
+        _flags: Self::Flags,
+    ) -> (Self, Task<cosmic::Action<Self::Message>>) {
+        let app = AppletModel {
+            core,
+            has_notification: false,
+        };
+        (app, Task::none())
+    }
+
+    fn on_close_requested(&self, _id: Id) -> Option<Message> {
+        None
+    }
+
+    fn view(&self) -> Element<'_, Self::Message> {
+        let button = self.core
+            .applet
+            .icon_button("sala-do-futuro-webapp")
+            .on_press(Message::AppletClicked);
+
+        if self.has_notification {
+            // Desenhar um pequeno ponto vermelho ao lado para indicar notificações
+            let dot = widget::text("●")
+                .size(14)
+                .color([1.0, 0.2, 0.2, 1.0]);
+
+            widget::row::with_children(vec![
+                button.into(),
+                dot.into(),
+            ])
+            .align_items(cosmic::iced::Alignment::Center)
+            .spacing(2)
+            .into()
+        } else {
+            button.into()
         }
     }
 
-    pub fn on_notification(&self, has_notif: bool) {
-        debug!("Notification status: {}", has_notif);
-        if let Ok(mut notif) = self.has_notification.lock() {
-            *notif = has_notif;
+    fn view_window(&self, _id: Id) -> Element<'_, Self::Message> {
+        // Applets de cliques diretos como este geralmente não usam popups,
+        // mas precisamos definir um elemento vazio por exigência da trait.
+        widget::container(widget::text("")).into()
+    }
+
+    fn subscription(&self) -> Subscription<Self::Message> {
+        Subscription::run(|| {
+            cosmic::iced::stream::channel(10, move |mut channel| async move {
+                // Tenta se conectar ao D-Bus de sessão
+                let conn = match Connection::session().await {
+                    Ok(c) => c,
+                    Err(e) => {
+                        eprintln!("Failed to connect to session bus: {}", e);
+                        return;
+                    }
+                };
+
+                // Cria o proxy para ler as notificações do daemon
+                let proxy = match NotificationDaemonProxy::new(&conn).await {
+                    Ok(p) => p,
+                    Err(e) => {
+                        eprintln!("Failed to create daemon proxy: {}", e);
+                        return;
+                    }
+                };
+
+                // Executa um loop de polling a cada 2 segundos
+                let mut ticker = interval(Duration::from_secs(2));
+                loop {
+                    ticker.tick().await;
+                    if let Ok(has_notif) = proxy.has_notification().await {
+                        let _ = channel.send(Message::SetNotificationStatus(has_notif)).await;
+                    }
+                }
+            })
+        })
+    }
+
+    fn update(&mut self, message: Self::Message) -> Task<cosmic::Action<Self::Message>> {
+        match message {
+            Message::AppletClicked => {
+                if !check_and_focus() {
+                    launch_app();
+                }
+            }
+            Message::SetNotificationStatus(status) => {
+                self.has_notification = status;
+            }
         }
+        Task::none()
     }
 
-    pub fn launch_app(&self) {
-        info!("Launching Sala do Futuro");
-        let _ = Command::new("sala-do-futuro-webapp")
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .spawn();
-    }
-
-    pub fn has_notification(&self) -> bool {
-        self.has_notification
-            .lock()
-            .map(|n| *n)
-            .unwrap_or(false)
+    fn style(&self) -> Option<cosmic::iced::theme::Style> {
+        Some(cosmic::applet::style())
     }
 }
 
-fn main() {
-    // Inicializar logging
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::INFO)
-        .init();
+fn check_and_focus() -> bool {
+    let socket_path = dirs::runtime_dir()
+        .unwrap_or_else(std::env::temp_dir)
+        .join("sala-do-futuro-webview.sock");
 
-    info!("Sala do Futuro - COSMIC Panel Widget initialized");
-    info!("This is a placeholder for COSMIC panel integration.");
-    info!("In production, this would be loaded as a COSMIC panel extension.");
-    
-    let app = PanelApp::new();
-    
-    // Simular monitoramento de notificações
-    app.on_notification(true);
-    println!("Panel status: {}", if app.has_notification() { "●" } else { "○" });
-    
-    // Teste: tentar iniciar aplicativo
-    // app.launch_app();
+    if let Ok(mut stream) = std::os::unix::net::UnixStream::connect(&socket_path) {
+        use std::io::Write;
+        let _ = stream.write_all(b"focus");
+        true
+    } else {
+        false
+    }
+}
+
+fn launch_app() {
+    let _ = Command::new("sala-do-futuro-webapp")
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .spawn();
+}
+
+fn main() -> cosmic::iced::Result {
+    cosmic::applet::run::<AppletModel>(())
 }
