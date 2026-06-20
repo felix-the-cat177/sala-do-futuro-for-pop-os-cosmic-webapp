@@ -13,6 +13,20 @@ cancel = Cancel
 reset = Reset
 open = Open
 download = Download
+create = Create
+run-app = Run App
+title = Title
+new-webapp-title = New WebApp Title
+category = Category
+generate-icon = Generate Icon
+icon-selector = Icon Selector
+reset-icon = Reset Icon
+url = URL
+select-category = Select Category
+window-size = Window Size
+isolated-profile = Isolated Profile
+simulate-mobile = Simulate Mobile
+icon-name-to-find = Icon Name to Find
 
 ## Editor
 support-me = Support Me
