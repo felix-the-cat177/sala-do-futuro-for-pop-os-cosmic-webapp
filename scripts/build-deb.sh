@@ -78,7 +78,7 @@ cp resources/dev.heppen.webapps.metainfo.xml $DEB_DIR/usr/share/metainfo/sala-do
 # Copiar ícones
 for size in 16x16 24x24 32x32 48x48 64x64 128x128 256x256; do
     mkdir -p $DEB_DIR/usr/share/icons/hicolor/$size/apps
-    cp resources/icons/hicolor/$size/apps/sala-do-futuro-webapp.svg $DEB_DIR/usr/share/icons/hicolor/$size/apps/ 2>/dev/null || true
+    cp resources/icons/hicolor/$size/apps/sala-do-futuro-webapp.png $DEB_DIR/usr/share/icons/hicolor/$size/apps/ 2>/dev/null || true
 done
 
 # Criar arquivo de controle

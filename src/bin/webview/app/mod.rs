@@ -59,6 +59,7 @@ pub fn run_main(main_args: &MainArgs, cmd_line: &CommandLine, sandbox_info: *mut
         browser_subprocess_path: CefString::from(helper_path.as_str()),
         root_cache_path,
         cache_path,
+        persist_session_cookies: 1,
         user_agent: if mobile_ua {
             CefString::from(MOBILE_UA)
         } else {

@@ -85,5 +85,9 @@ features = ["a11y", "dbus-config", "winit", "multi-window", "wayland", "tokio", 
 
 
 
-
-
+[profile.release]
+opt-level = "z"  # Optimize for size
+lto = true       # Enable Link Time Optimization
+codegen-units = 1 # Reduce parallel code generation for better optimization
+panic = "abort"  # Remove panic unwinding to save size
+strip = true     # Strip symbols from binary
