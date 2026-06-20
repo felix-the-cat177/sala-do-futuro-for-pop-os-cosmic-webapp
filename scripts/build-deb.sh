@@ -11,6 +11,15 @@ echo "Construindo $APP_NAME versão $VERSION..."
 echo "Incluindo: sala-do-futuro-webapp, cosmic-panel-item, notification-daemon"
 echo ""
 
+# Garantir que o Cargo.lock está sincronizado com o repositório
+# Isso previne erros de "local changes would be overwritten" no git pull
+if git diff --quiet Cargo.lock 2>/dev/null; then
+    echo "Cargo.lock sincronizado ✅"
+else
+    echo "Restaurando Cargo.lock do repositório para evitar conflitos de dependência..."
+    git checkout -- Cargo.lock
+fi
+
 # Build em release mode
 echo "Compilando..."
 cargo build --release
