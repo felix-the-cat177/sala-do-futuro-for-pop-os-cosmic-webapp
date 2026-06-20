@@ -71,6 +71,12 @@ Description: Sala do Futuro - Web application for COSMIC and Pop!_OS
  Navegador Chromium com aceleracao de hardware e API Vulkan
 EOF
 
+# Ajustar permissões para evitar erros no dpkg-deb
+echo "Ajustando permissões dos arquivos..."
+find $DEB_DIR -type d -exec chmod 755 {} \;
+find $DEB_DIR -type f -exec chmod 644 {} \;
+chmod 755 $DEB_DIR/usr/bin/*
+
 # Construir pacote .deb
 cd $DEB_DIR
 dpkg-deb --build . ../${APP_NAME}_${VERSION}_${ARCH}.deb
