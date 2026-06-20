@@ -99,7 +99,7 @@ impl AppEditor {
                 .position(|c| c == &launcher.category.name());
             editor.is_installed = true;
 
-            editor.update_icon(launcher.icon.into());
+            editor.update_icon(Some(launcher.icon));
 
             editor
         } else {
@@ -160,14 +160,14 @@ impl AppEditor {
                 if self.app_title.len() > 1 {
                     let icon = generate_icon(&self.app_title.split_at(1).0);
 
-                    self.update_icon(icon.clone());
-
                     if let Some(icon) = icon {
+                        self.update_icon(Some(icon.clone()));
+
                         if webapp_icon_valid(&icon) {
                             let ico = sala_do_futuro_webapp::handle_icon(icon.path.into());
 
                             return task::future(async {
-                                Action::App(pages::Message::SetIcon(ico.into()))
+                                Action::App(pages::Message::SetIcon(ico))
                             });
                         };
                     }
@@ -205,7 +205,7 @@ impl AppEditor {
         Task::none()
     }
 
-    pub fn update_icon(&mut self, icon: Option<WebappIcon>) {
+    pub fn update_icon(&mut self, icon: Option<sala_do_futuro_webapp::Icon>) {
         if let Some(icon) = icon {
             self.selected_icon = Some(handle_icon(icon.path.clone().into()));
             self.app_icon = Some(icon);
