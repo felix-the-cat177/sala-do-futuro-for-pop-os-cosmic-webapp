@@ -1,7 +1,7 @@
 //! Rust port of the [`cefsimple`](https://github.com/chromiumembedded/cef/tree/master/tests/cefsimple) example.
 
 use cef::*;
-use crate::{DESKTOP_UA, MOBILE_UA, WebviewArgs};
+use sala_do_futuro_webapp::{DESKTOP_UA, MOBILE_UA, WebviewArgs};
 
 pub mod simple_app;
 pub mod simple_handler;
@@ -38,11 +38,11 @@ pub fn run_main(main_args: &MainArgs, cmd_line: &CommandLine, sandbox_info: *mut
 
     let mut app = simple_app::SimpleApp::new();
 
-    let helper_path = crate::helper_bin();
+    let helper_path = sala_do_futuro_webapp::helper_bin();
 
     let args = WebviewArgs::parse();
 
-    let Some(browser_config) = crate::Browser::from_appid(&args.id) else {
+    let Some(browser_config) = sala_do_futuro_webapp::browser::Browser::from_appid(&args.id) else {
         return;
     };
 

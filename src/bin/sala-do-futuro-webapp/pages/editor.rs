@@ -7,26 +7,26 @@ use cosmic::{
 };
 use rand::{RngExt as _, rng};
 use strum::IntoEnumIterator as _;
-use crate::{
-    Category, localize::fl, generate_icon, handle_icon,
-    launcher::{WebappIcon, webapp_icon_valid},
+use sala_do_futuro_webapp::{
+    Category, localize::fl, Icon as WebappIcon, handle_icon,
+    launcher::{webapp_icon_valid},
 };
 
 use crate::pages;
 
 #[derive(Debug, Clone)]
 pub struct AppEditor {
-    pub app_browser: Option<crate::browser::Browser>,
+    pub app_browser: Option<sala_do_futuro_webapp::browser::Browser>,
     pub app_title: String,
     pub app_url: String,
     pub app_icon: Option<WebappIcon>,
-    pub app_category: crate::Category,
+    pub app_category: sala_do_futuro_webapp::Category,
     pub app_window_width: String,
     pub app_window_height: String,
-    pub app_window_size: crate::WindowSize,
+    pub app_window_size: sala_do_futuro_webapp::WindowSize,
     pub app_isolated: bool,
     pub app_simulate_mobile: bool,
-    pub selected_icon: Option<crate::Icon>,
+    pub selected_icon: Option<sala_do_futuro_webapp::Icon>,
     pub categories: Vec<String>,
     pub category_idx: Option<usize>,
     pub is_installed: bool,
@@ -34,7 +34,7 @@ pub struct AppEditor {
 
 impl Default for AppEditor {
     fn default() -> Self {
-        let categories = crate::Category::iter()
+        let categories = sala_do_futuro_webapp::Category::iter()
             .map(|c| c.name())
             .collect::<Vec<String>>();
 
@@ -43,15 +43,15 @@ impl Default for AppEditor {
             app_title: String::from("Sala do Futuro"),
             app_url: String::from("https://saladofuturo.educacao.sp.gov.br/escolha-de-perfil"),
             app_icon: None,
-            app_category: crate::Category::default(),
-            app_window_width: String::from(crate::DEFAULT_WINDOW_WIDTH.to_string()),
-            app_window_height: String::from(crate::DEFAULT_WINDOW_HEIGHT.to_string()),
-            app_window_size: crate::WindowSize::default(),
+            app_category: sala_do_futuro_webapp::Category::default(),
+            app_window_width: String::from(sala_do_futuro_webapp::DEFAULT_WINDOW_WIDTH.to_string()),
+            app_window_height: String::from(sala_do_futuro_webapp::DEFAULT_WINDOW_HEIGHT.to_string()),
+            app_window_size: sala_do_futuro_webapp::WindowSize::default(),
             app_isolated: true,
             app_simulate_mobile: false,
             selected_icon: None,
             categories,
-            category_idx: crate::Category::iter().position(|c| c == Category::Utility),
+            category_idx: sala_do_futuro_webapp::Category::iter().position(|c| c == Category::Utility),
             is_installed: false,
         }
     }
@@ -74,8 +74,8 @@ pub enum Message {
 }
 
 impl AppEditor {
-    pub fn from(webapp_launcher: crate::launcher::WebAppLauncher) -> Self {
-        let entry = crate::launcher::installed_webapps()
+    pub fn from(webapp_launcher: sala_do_futuro_webapp::launcher::WebAppLauncher) -> Self {
+        let entry = sala_do_futuro_webapp::launcher::installed_webapps()
             .into_iter()
             .find(|webapp| webapp.browser.app_id == webapp_launcher.browser.app_id);
 
@@ -116,7 +116,7 @@ impl AppEditor {
                 self.app_simulate_mobile = flag;
             }
             Message::Category(idx) => {
-                self.app_category = crate::Category::from_index(idx as u8);
+                self.app_category = sala_do_futuro_webapp::Category::from_index(idx as u8);
                 self.category_idx = Some(idx);
             }
             Message::Done => {
@@ -126,7 +126,7 @@ impl AppEditor {
                     let app_id = self.app_title.replace(' ', "");
                     let app_id = app_id + &rng().random_range(1000..10000).to_string();
 
-                    let mut browser = crate::browser::Browser::new(&app_id);
+                    let mut browser = sala_do_futuro_webapp::browser::Browser::new(&app_id);
                     browser.window_title = Some(self.app_title.clone());
                     browser.url = Some(self.app_url.clone());
                     browser.window_size = Some(self.app_window_size.clone());
@@ -134,9 +134,9 @@ impl AppEditor {
                     browser
                 };
 
-                if crate::launcher::webapplauncher_is_valid(&self.app_title, &browser.url) {
+                if sala_do_futuro_webapp::launcher::webapplauncher_is_valid(&self.app_title, &browser.url) {
                     if let Some(icon) = &self.app_icon {
-                        let launcher = crate::launcher::WebAppLauncher {
+                        let launcher = sala_do_futuro_webapp::launcher::WebAppLauncher {
                             browser: browser.clone(),
                             name: self.app_title.clone(),
                             icon: icon.clone(),
@@ -164,7 +164,7 @@ impl AppEditor {
 
                     if let Some(icon) = icon {
                         if webapp_icon_valid(&icon) {
-                            let ico = crate::handle_icon(icon.path);
+                            let ico = sala_do_futuro_webapp::handle_icon(icon.path);
 
                             return task::future(async {
                                 Action::App(pages::Message::SetIcon(ico.into()))
@@ -212,15 +212,15 @@ impl AppEditor {
         }
     }
 
-    fn icon_element(&self, icon: Option<crate::Icon>) -> Element<'_, Message> {
+    fn icon_element(&self, icon: Option<sala_do_futuro_webapp::Icon>) -> Element<'_, Message> {
         let ico = if let Some(ico) = icon {
             match ico.icon {
-                crate::IconType::Raster(data) => widget::button::custom(widget::image(data))
+                sala_do_futuro_webapp::IconType::Raster(data) => widget::button::custom(widget::image(data))
                     .width(Length::Fixed(92.0))
                     .height(Length::Fixed(92.0))
                     .class(style::Button::Icon),
 
-                crate::IconType::Svg(data) => widget::button::custom(widget::svg(data))
+                sala_do_futuro_webapp::IconType::Svg(data) => widget::button::custom(widget::svg(data))
                     .width(Length::Fixed(92.0))
                     .height(Length::Fixed(92.0))
                     .class(style::Button::Icon),
@@ -319,14 +319,14 @@ impl AppEditor {
                                 .spacing(8)
                                 .push(
                                     widget::text_input(
-                                        format!("{}", crate::DEFAULT_WINDOW_WIDTH),
+                                        format!("{}", sala_do_futuro_webapp::DEFAULT_WINDOW_WIDTH),
                                         &self.app_window_width,
                                     )
                                     .on_input(Message::WindowWidth),
                                 )
                                 .push(
                                     widget::text_input(
-                                        format!("{}", crate::DEFAULT_WINDOW_HEIGHT),
+                                        format!("{}", sala_do_futuro_webapp::DEFAULT_WINDOW_HEIGHT),
                                         &self.app_window_height,
                                     )
                                     .on_input(Message::WindowHeight),
@@ -355,7 +355,7 @@ impl AppEditor {
                             )
                         })
                         .push(widget::button::suggested(fl!("create")).on_press_maybe(
-                            if crate::launcher::webapplauncher_is_valid(
+                            if sala_do_futuro_webapp::launcher::webapplauncher_is_valid(
                                 &self.app_title,
                                 &Some(self.app_url.clone()),
                             ) {

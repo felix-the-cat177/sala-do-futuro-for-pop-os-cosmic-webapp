@@ -1,4 +1,5 @@
 use i18n_embed::DesktopLanguageRequester;
+use sala_do_futuro_webapp::localize;
 
 pub(crate) mod config;
 pub(crate) mod pages;
@@ -17,7 +18,7 @@ fn main() -> cosmic::iced::Result {
 }
 
 fn init_localizer() {
-    let localizer = crate::localize::localizer();
+    let localizer = localize::localizer();
     let requested_languages = DesktopLanguageRequester::requested_languages();
 
     if let Err(why) = localizer.select(&requested_languages) {

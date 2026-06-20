@@ -1,6 +1,6 @@
 use cef::{Rect, *};
 use std::cell::RefCell;
-use crate::WebviewArgs;
+use sala_do_futuro_webapp::WebviewArgs;
 
 use super::simple_handler::*;
 
@@ -43,7 +43,7 @@ wrap_window_delegate! {
         fn initial_bounds(&self, window: Option<&mut Window>) -> Rect {
             let args = WebviewArgs::parse();
 
-            if let Some(browser_config) = crate::Browser::from_appid(&args.id) {
+            if let Some(browser_config) = sala_do_futuro_webapp::browser::Browser::from_appid(&args.id) {
                 let Some(size) = browser_config.window_size else {
                     return Default::default();
                 };
@@ -144,7 +144,7 @@ wrap_browser_process_handler! {
 
             let args = WebviewArgs::parse();
 
-            let Some(browser_config) = crate::Browser::from_appid(&args.id) else {
+            let Some(browser_config) = sala_do_futuro_webapp::browser::Browser::from_appid(&args.id) else {
                 return;
             };
 
