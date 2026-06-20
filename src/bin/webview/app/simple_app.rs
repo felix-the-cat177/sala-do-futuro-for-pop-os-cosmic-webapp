@@ -117,6 +117,25 @@ wrap_app! {
     pub struct SimpleApp;
 
     impl App {
+        fn on_before_command_line_processing(
+            &self,
+            _process_type: Option<&CefString>,
+            command_line: Option<&mut CommandLine>,
+        ) {
+            if let Some(cmd) = command_line {
+                // Otimizações de memória para WebApp focado
+                cmd.append_switch(Some(&CefString::from("disable-extensions")));
+                cmd.append_switch(Some(&CefString::from("disable-plugins")));
+                cmd.append_switch(Some(&CefString::from("disable-speech-api")));
+                cmd.append_switch(Some(&CefString::from("disable-sync")));
+                cmd.append_switch(Some(&CefString::from("disable-component-update")));
+
+                // Melhor renderização gráfica nativa (Wayland/X11 automágicos)
+                cmd.append_switch(Some(&CefString::from("enable-features=UseOzonePlatform")));
+                cmd.append_switch_with_value(Some(&CefString::from("ozone-platform-hint")), Some(&CefString::from("auto")));
+            }
+        }
+
         fn browser_process_handler(&self) -> Option<BrowserProcessHandler> {
             Some(SimpleBrowserProcessHandler::new(RefCell::new(None)))
         }

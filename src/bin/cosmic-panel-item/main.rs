@@ -158,10 +158,15 @@ fn check_and_focus() -> bool {
 }
 
 fn launch_app() {
-    let _ = Command::new("sala-do-futuro-webapp")
-        .stdout(std::process::Stdio::null())
-        .stderr(std::process::Stdio::null())
-        .spawn();
+    std::thread::spawn(|| {
+        if let Ok(mut child) = Command::new("sala-do-futuro-webapp")
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .spawn() 
+        {
+            let _ = child.wait();
+        }
+    });
 }
 
 fn main() -> cosmic::iced::Result {

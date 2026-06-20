@@ -1,6 +1,6 @@
 [package]
 name = "sala-do-futuro-webapp"
-version = "1.2.3"
+version = "1.2.4"
 edition = "2024"
 description = "Sala do Futuro - Web application for COSMIC and Pop!_OS with integrated notifications and panel support"
 authors = ["Dixycat"]
