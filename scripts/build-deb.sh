@@ -4,7 +4,7 @@
 set -e
 
 APP_NAME="sala-do-futuro-webapp"
-VERSION="1.2.2"
+VERSION="1.2.3"
 ARCH="amd64"
 
 echo "Construindo $APP_NAME versão $VERSION..."
@@ -47,6 +47,8 @@ mkdir -p $DEB_DIR/usr/share/cef
 CEF_SRC_DIR=$(find target -name "cef_linux_x86_64" -type d | head -n 1)
 if [ -n "$CEF_SRC_DIR" ] && [ -d "$CEF_SRC_DIR" ]; then
     cp -r $CEF_SRC_DIR/. $DEB_DIR/usr/share/cef/
+    echo "Limpando símbolos de depuração pesados das bibliotecas do CEF..."
+    strip --strip-unneeded $DEB_DIR/usr/share/cef/*.so 2>/dev/null || true
 else
     echo "⚠️  AVISO: Diretório do CEF (cef_linux_x86_64) não encontrado em target!"
 fi
