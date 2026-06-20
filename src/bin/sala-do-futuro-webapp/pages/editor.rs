@@ -41,7 +41,7 @@ impl Default for AppEditor {
         AppEditor {
             app_browser: None,
             app_title: String::from("Sala do Futuro"),
-            app_url: String::from("https://saladofuturo.educacao.sp.gov.br/escolha-de-perfil"),
+            app_url: String::from("https://saladofuturo.educacao.sp.gov.br/"),
             app_icon: None,
             app_category: sala_do_futuro_webapp::Category::default(),
             app_window_width: String::from(sala_do_futuro_webapp::DEFAULT_WINDOW_WIDTH.to_string()),

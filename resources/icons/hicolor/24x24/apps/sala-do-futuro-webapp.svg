@@ -1,8 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Fundo branco com bordas arredondadas -->
+  <rect width="1024" height="1024" fill="#ffffff" rx="80"/>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="40" fill="#1e88e5"/>
-  <circle cx="128" cy="100" r="50" fill="#ffffff"/>
-  <rect x="60" y="160" width="136" height="60" rx="10" fill="#ffffff"/>
-  <text x="128" y="115" font-family="Arial" font-size="40" font-weight="bold" fill="#1e88e5" text-anchor="middle">SF</text>
+  <!-- Figura esquerda (braços erguidos) -->
+  <g fill="#cc0000">
+    <!-- Cabeça esquerda -->
+    <circle cx="340" cy="148" r="72"/>
+    <!-- Corpo esquerda -->
+    <ellipse cx="340" cy="310" rx="55" ry="90"/>
+    <!-- Braço esquerdo - levantado para cima-esquerda -->
+    <rect x="170" y="140" width="48" height="130" rx="24" transform="rotate(-40 194 205)"/>
+    <!-- Braço direito da fig esquerda - levantado para cima-direita -->
+    <rect x="360" y="120" width="48" height="130" rx="24" transform="rotate(25 384 185)"/>
+    <!-- Perna esquerda -->
+    <rect x="300" y="370" width="44" height="120" rx="22" transform="rotate(-8 322 430)"/>
+    <!-- Perna direita -->
+    <rect x="360" y="370" width="44" height="115" rx="22" transform="rotate(10 382 428)"/>
+  </g>
+
+  <!-- Figura direita (saia/vestido) -->
+  <g fill="#cc0000">
+    <!-- Cabeça direita -->
+    <circle cx="680" cy="148" r="68"/>
+    <!-- Corpo / saia -->
+    <path d="M640 230 Q680 220 720 230 L760 420 Q680 400 600 420 Z"/>
+    <!-- Braço esquerdo da fig direita - levantado -->
+    <rect x="530" y="140" width="44" height="120" rx="22" transform="rotate(-25 552 200)"/>
+    <!-- Braço direito levantado -->
+    <rect x="700" y="120" width="44" height="135" rx="22" transform="rotate(42 722 188)"/>
+    <!-- Perna esquerda -->
+    <rect x="638" y="400" width="40" height="110" rx="20" transform="rotate(-6 658 455)"/>
+    <!-- Perna direita -->
+    <rect x="690" y="400" width="40" height="108" rx="20" transform="rotate(8 710 454)"/>
+  </g>
+
+  <!-- Texto SALA DO FUTURO -->
+  <text x="512" y="620" font-family="Arial Black, Arial, sans-serif" font-size="118" font-weight="900" fill="#111111" text-anchor="middle" letter-spacing="2">SALA DO</text>
+  <text x="512" y="755" font-family="Arial Black, Arial, sans-serif" font-size="118" font-weight="900" fill="#111111" text-anchor="middle" letter-spacing="2">FUTURO</text>
 </svg>
-
