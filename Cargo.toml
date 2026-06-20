@@ -83,3 +83,7 @@ git = "https://github.com/pop-os/libcosmic.git"
 rev = "a37be90e811f365273bf632bf7090b63a368f092"
 features = ["a11y", "dbus-config", "winit", "multi-window", "wayland", "tokio", "applet", "applet-token"]
 
+[patch."https://github.com/pop-os/cosmic-text.git"]
+cosmic-text = { git = "https://github.com/pop-os/cosmic-text.git", rev = "29034e56b47b7e259f9a18a01fcda8ff267fc2d1" }
+
+
