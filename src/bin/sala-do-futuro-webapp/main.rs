@@ -33,17 +33,23 @@ fn configure_rendering() {
     
     if env::var("ENABLE_VULKAN").is_ok() {
         tracing::info!("Vulkan rendering enabled");
-        env::set_var("OZONE_PLATFORM", "wayland");
+        unsafe {
+            env::set_var("OZONE_PLATFORM", "wayland");
+        }
     }
 
     // Habilitar hardware acceleration
     if env::var("LIBGL_ALWAYS_SOFTWARE").is_err() {
-        env::set_var("LIBGL_ALWAYS_SOFTWARE", "0");
+        unsafe {
+            env::set_var("LIBGL_ALWAYS_SOFTWARE", "0");
+        }
     }
 
     // Drivers GPU disponíveis
     if env::var("LIBGBM_DRIVERS").is_err() {
-        env::set_var("LIBGBM_DRIVERS", "nouveau,radeonsi,iris,amdgpu,swrast");
+        unsafe {
+            env::set_var("LIBGBM_DRIVERS", "nouveau,radeonsi,iris,amdgpu,swrast");
+        }
     }
 
     tracing::debug!("Rendering configured: OZONE_PLATFORM={:?}", 

@@ -4,8 +4,8 @@
 
 use std::error::Error;
 use zbus::{Connection, dbus_interface};
-use tokio::time::{interval, Duration};
-use tracing::{info, warn, debug};
+use tokio::time::Duration;
+use tracing::info;
 
 /// Interface D-Bus para notificações
 pub struct NotificationService {
@@ -53,7 +53,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let connection = Connection::session().await?;
 
     // Registrar a interface D-Bus
-    let mut service = NotificationService {
+    let service = NotificationService {
         has_notification: false,
     };
 
