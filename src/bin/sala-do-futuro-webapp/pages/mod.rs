@@ -503,7 +503,7 @@ impl Application for QuickWebApps {
 
                 if let Some(ico) = icon {
                     println!("setting icon: {:?}", ico);
-                    app_editor.update_icon(ico.to_launcher_icon());
+                    app_editor.update_icon(Some(ico));
                     self.dialogs = None;
                 }
             }

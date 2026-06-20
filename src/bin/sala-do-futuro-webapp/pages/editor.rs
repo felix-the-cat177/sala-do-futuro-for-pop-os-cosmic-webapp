@@ -8,8 +8,8 @@ use cosmic::{
 use rand::{RngExt as _, rng};
 use strum::IntoEnumIterator as _;
 use sala_do_futuro_webapp::{
-    fl, Category, Icon as WebappIcon, handle_icon, generate_icon,
-    launcher::{webapp_icon_valid},
+    fl, Category, Icon, handle_icon, generate_icon,
+    launcher::{webapp_icon_valid, WebappIcon},
 };
 
 use crate::pages;
@@ -26,7 +26,7 @@ pub struct AppEditor {
     pub app_window_size: sala_do_futuro_webapp::WindowSize,
     pub app_isolated: bool,
     pub app_simulate_mobile: bool,
-    pub selected_icon: Option<sala_do_futuro_webapp::Icon>,
+    pub selected_icon: Option<Icon>,
     pub categories: Vec<String>,
     pub category_idx: Option<usize>,
     pub is_installed: bool,
@@ -99,7 +99,7 @@ impl AppEditor {
                 .position(|c| c == &launcher.category.name());
             editor.is_installed = true;
 
-            editor.update_icon(Some(launcher.icon));
+            editor.update_icon(Some(launcher.icon.to_icon()));
 
             editor
         } else {
@@ -161,13 +161,13 @@ impl AppEditor {
                     let icon = generate_icon(&self.app_title.split_at(1).0);
 
                     if let Some(icon) = icon {
-                        self.update_icon(Some(icon.clone()));
+                        self.update_icon(Some(icon.to_icon()));
 
                         if webapp_icon_valid(&icon) {
                             let ico = sala_do_futuro_webapp::handle_icon(icon.path.into());
 
                             return task::future(async {
-                                Action::App(pages::Message::SetIcon(ico))
+                                Action::App(pages::Message::SetIcon(Some(ico)))
                             });
                         };
                     }
@@ -205,14 +205,16 @@ impl AppEditor {
         Task::none()
     }
 
-    pub fn update_icon(&mut self, icon: Option<sala_do_futuro_webapp::Icon>) {
+    pub fn update_icon(&mut self, icon: Option<Icon>) {
         if let Some(icon) = icon {
-            self.selected_icon = Some(handle_icon(icon.path.clone().into()));
-            self.app_icon = Some(icon);
+            if let Some(webapp_icon) = icon.to_launcher_icon() {
+                self.selected_icon = Some(handle_icon(icon.path.clone().into()));
+                self.app_icon = Some(webapp_icon);
+            }
         }
     }
 
-    fn icon_element(&self, icon: Option<sala_do_futuro_webapp::Icon>) -> Element<'_, Message> {
+    fn icon_element(&self, icon: Option<Icon>) -> Element<'_, Message> {
         let ico = if let Some(ico) = icon {
             match ico.icon {
                 sala_do_futuro_webapp::IconType::Raster(data) => widget::button::custom(widget::image(data))
