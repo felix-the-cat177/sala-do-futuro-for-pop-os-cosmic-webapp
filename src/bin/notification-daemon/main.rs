@@ -3,7 +3,7 @@
 // Se comunica com o COSMIC panel via D-Bus
 
 use std::error::Error;
-use zbus::{Connection, dbus_interface};
+use zbus::{Connection, interface};
 use tokio::time::Duration;
 use tracing::info;
 
@@ -12,14 +12,14 @@ pub struct NotificationService {
     has_notification: bool,
 }
 
-#[dbus_interface]
+#[interface]
 impl NotificationService {
-    #[dbus_interface(property)]
+    #[zbus(property)]
     pub fn has_notification(&self) -> bool {
         self.has_notification
     }
 
-    #[dbus_interface(property)]
+    #[zbus(property)]
     pub fn set_has_notification(&mut self, value: bool) {
         self.has_notification = value;
         info!("Notification status changed to: {}", value);
