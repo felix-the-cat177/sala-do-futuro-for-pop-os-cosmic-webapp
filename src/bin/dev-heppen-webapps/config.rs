@@ -1,5 +1,5 @@
 use cosmic::cosmic_config::{self, cosmic_config_derive::CosmicConfigEntry, CosmicConfigEntry};
-use webapps::{APP_ID, CONFIG_VERSION};
+use sala_do_futuro_webapp::{APP_ID, CONFIG_VERSION};
 
 #[derive(Debug, Default, Clone, CosmicConfigEntry, Eq, PartialEq)]
 #[version = 1]

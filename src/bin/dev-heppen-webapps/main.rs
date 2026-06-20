@@ -17,7 +17,7 @@ fn main() -> cosmic::iced::Result {
 }
 
 fn init_localizer() {
-    let localizer = webapps::localize::localizer();
+    let localizer = sala_do_futuro_webapp::localize::localizer();
     let requested_languages = DesktopLanguageRequester::requested_languages();
 
     if let Err(why) = localizer.select(&requested_languages) {

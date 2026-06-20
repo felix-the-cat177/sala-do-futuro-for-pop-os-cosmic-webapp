@@ -6,7 +6,7 @@ use cosmic::{
     task, theme,
     widget::{self},
 };
-use webapps::fl;
+use sala_do_futuro_webapp::fl;
 
 use crate::pages;
 
@@ -16,17 +16,17 @@ pub enum Message {
     DownloadIconsPack,
     OpenIconPickerDialog,
     IconSearch,
-    SetIcon(Option<webapps::Icon>),
+    SetIcon(Option<sala_do_futuro_webapp::Icon>),
 }
 
 #[derive(Debug, Clone, Default)]
 pub struct IconPicker {
     pub icon_searching: String,
-    pub icons: Vec<webapps::Icon>,
+    pub icons: Vec<sala_do_futuro_webapp::Icon>,
 }
 
 impl IconPicker {
-    pub fn push_icon(&mut self, icon: webapps::Icon) {
+    pub fn push_icon(&mut self, icon: sala_do_futuro_webapp::Icon) {
         self.icons.push(icon);
     }
 
@@ -77,7 +77,7 @@ impl IconPicker {
                 let name = self.icon_searching.clone().to_lowercase();
 
                 return task::future(async {
-                    pages::Message::IconsResult(webapps::find_icons(name).await)
+                    pages::Message::IconsResult(sala_do_futuro_webapp::find_icons(name).await)
                 });
             }
             Message::SetIcon(icon) => {
@@ -93,12 +93,12 @@ impl IconPicker {
 
         for ico in self.icons.iter() {
             let btn = match ico.clone().icon {
-                webapps::IconType::Raster(icon) => widget::button::custom(widget::image(icon))
+                sala_do_futuro_webapp::IconType::Raster(icon) => widget::button::custom(widget::image(icon))
                     .width(Length::Fixed(48.))
                     .height(Length::Fixed(48.))
                     .on_press(Message::SetIcon(Some(ico.clone())))
                     .class(theme::Button::Icon),
-                webapps::IconType::Svg(icon) => widget::button::custom(widget::svg(icon))
+                sala_do_futuro_webapp::IconType::Svg(icon) => widget::button::custom(widget::svg(icon))
                     .width(Length::Fixed(48.))
                     .height(Length::Fixed(48.))
                     .on_press(Message::SetIcon(Some(ico.clone())))
@@ -120,7 +120,7 @@ impl IconPicker {
                         .spacing(8)
                         .push(icons_input)
                         .push(button)
-                        .push_maybe(if !webapps::icon_pack_installed() {
+                        .push_maybe(if !sala_do_futuro_webapp::icon_pack_installed() {
                             Some(
                                 widget::button::standard(fl!("download"))
                                     .on_press(Message::DownloadIconsPack),
