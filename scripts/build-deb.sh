@@ -90,7 +90,7 @@ Priority: optional
 Architecture: $ARCH
 Depends: libgtk-3-0, libwebkit2gtk-4.1-0
 Recommends: libcosmic0
-Maintainer: felix-the-cat177
+Maintainer: Dixycat
 Description: Sala do Futuro - Web application for COSMIC and Pop!_OS
  Aplicativo web educacional para a Sala do Futuro
  Integrado com ambiente COSMIC
