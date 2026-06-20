@@ -24,8 +24,8 @@ fi
 echo "Compilando..."
 cargo build --release
 
-# Criar estrutura do pacote Debian
-DEB_DIR="debian-package"
+# Criar estrutura do pacote Debian no /tmp
+DEB_DIR="/tmp/debian-package-${APP_NAME}"
 rm -rf $DEB_DIR
 mkdir -p $DEB_DIR/DEBIAN
 mkdir -p $DEB_DIR/usr/bin
@@ -104,9 +104,9 @@ find $DEB_DIR -type f -exec chmod 644 {} \;
 chmod 755 $DEB_DIR/usr/bin/*
 chmod 755 $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview* 2>/dev/null || true
 
-# Construir pacote .deb
+# Construir pacote .deb no /tmp
 cd $DEB_DIR
-dpkg-deb --build . ../${APP_NAME}_${VERSION}_${ARCH}.deb
-cd ..
+dpkg-deb --build . /tmp/${APP_NAME}_${VERSION}_${ARCH}.deb
+cd - > /dev/null
 
-echo "Pacote criado: ${APP_NAME}_${VERSION}_${ARCH}.deb"
+echo "Pacote criado: /tmp/${APP_NAME}_${VERSION}_${ARCH}.deb"
