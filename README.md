@@ -1,7 +1,7 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
   <br>
-  <img alt="Sala do Futuro" src="resources/icons/hicolor/256x256/apps/sala-do-futuro-webapp.svg" width="192" />
+  <img alt="Sala do Futuro" src="resources/icons/Sala_do_Futuro_logo.png" width="192" />
   <h1>Sala do Futuro</h1>
 
   <p>Aplicativo web educacional para a Sala do Futuro - Pop!_OS COSMIC. Navegador Chromium com aceleracao de hardware e API Vulkan para melhor performance.</p>
