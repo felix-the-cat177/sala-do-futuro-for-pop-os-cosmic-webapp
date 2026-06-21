@@ -41,13 +41,25 @@ fn main() -> cosmic::iced::Result {
             let xdg_data = dirs::data_dir().unwrap_or_default();
             let profile_path = xdg_data.join(sala_do_futuro_webapp::APP_ID).join("profiles").join("sala-do-futuro");
             
+            let mut shell_url = "https://saladofuturo.educacao.sp.gov.br/".to_string();
+            
+            // Tenta usar o app shell customizado (página dividida) se existir
+            let local_shell = std::env::current_dir().unwrap_or_default().join("resources/app_shell/index.html");
+            let system_shell = PathBuf::from("/usr/share/sala-do-futuro-webapp/app_shell/index.html");
+            
+            if system_shell.exists() {
+                shell_url = format!("file://{}", system_shell.display());
+            } else if local_shell.exists() {
+                shell_url = format!("file://{}", local_shell.display());
+            }
+
             let launcher = sala_do_futuro_webapp::launcher::WebAppLauncher {
                 browser: sala_do_futuro_webapp::browser::Browser {
                     app_id: sala_do_futuro_webapp::WebviewArgs {
                         id: "sala-do-futuro".to_string(),
                     },
                     window_title: Some("Sala do Futuro".to_string()),
-                    url: Some("https://saladofuturo.educacao.sp.gov.br/".to_string()),
+                    url: Some(shell_url),
                     profile: profile_path,
                     window_size: Some(sala_do_futuro_webapp::WindowSize(800, 600)),
                     try_simulate_mobile: Some(false),
