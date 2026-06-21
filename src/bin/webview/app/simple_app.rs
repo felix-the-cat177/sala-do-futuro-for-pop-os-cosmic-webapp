@@ -126,9 +126,6 @@ wrap_app! {
                 // Otimizações de memória para WebApp focado
                 cmd.append_switch(Some(&CefString::from("disable-extensions")));
                 cmd.append_switch(Some(&CefString::from("disable-plugins")));
-                cmd.append_switch(Some(&CefString::from("disable-web-security")));
-                cmd.append_switch(Some(&CefString::from("disable-site-isolation-trials")));
-                cmd.append_switch(Some(&CefString::from("disable-features=IsolateOrigins,site-per-process")));
                 cmd.append_switch(Some(&CefString::from("disable-speech-api")));
                 cmd.append_switch(Some(&CefString::from("disable-sync")));
                 cmd.append_switch(Some(&CefString::from("disable-component-update")));

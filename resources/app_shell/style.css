@@ -27,238 +27,129 @@ body {
     width: 100vw;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 64px;
-    flex-shrink: 0;
-    background-color: var(--sidebar-bg);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 0;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-    z-index: 30;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-/* Collapsed State */
-.app-container.collapsed .sidebar {
-    width: 0;
-    padding: 0;
-    opacity: 0;
-}
-
-.app-container.collapsed .content-panel {
-    flex: 0;
-    padding: 0;
-    opacity: 0;
-    min-width: 0;
-    margin: 0;
-}
-
-.sidebar-top, .sidebar-bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.icon-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+/* Launcher Mode (Dashboard) */
+.launcher-mode {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.2s ease;
-    cursor: pointer;
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
 }
 
-.icon-btn img {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
+.launcher-content {
+    background-color: white;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
 }
 
-.icon-btn:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-    transform: scale(1.05);
+.launcher-header {
+    margin-bottom: 40px;
 }
 
-.icon-btn.active {
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.popos-btn {
-    background-color: #48b9c7;
-    border-radius: 50%;
-}
-.popos-btn:hover {
-    background-color: #38a5b2;
-}
-
-/* Main Content Panel (Left) */
-.content-panel {
-    flex: 1.2;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    overflow-y: auto;
-    background-color: #f8f9fa;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    min-width: 250px;
-    z-index: 10;
-}
-
-.info-card {
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.primary-card {
-    background: linear-gradient(135deg, #4da7bb 0%, #3a97ab 100%);
-    color: var(--text-light);
-    flex-grow: 1;
-}
-
-.primary-card h1 {
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 24px;
-    line-height: 1.2;
-}
-
-.primary-card h1 strong {
-    font-weight: 800;
-    font-size: 2.5rem;
-}
-
-.primary-card p, .primary-card li {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 12px;
-}
-
-.primary-card h3 {
-    margin-top: 20px;
-    margin-bottom: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.primary-card ul, .primary-card ol {
-    margin-left: 20px;
+.main-logo {
+    width: 100px;
     margin-bottom: 20px;
 }
 
-.primary-card li {
-    margin-bottom: 8px;
-}
-
-.footer-text {
-    margin-top: 30px;
-    font-size: 0.9rem !important;
-    opacity: 0.9;
-}
-
-/* Secondary Card (Links) */
-.secondary-card {
-    background-color: var(--secondary-card-bg);
+.launcher-header h1 {
+    font-size: 2.5rem;
     color: var(--text-dark);
+    margin-bottom: 10px;
 }
 
-.secondary-card h3 {
-    font-size: 1rem;
-    color: #444;
-    margin-bottom: 12px;
-    margin-top: 16px;
-}
-
-.secondary-card h3:first-child {
-    margin-top: 0;
-}
-
-.links-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.links-row a {
-    color: var(--link-color);
-    text-decoration: none;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    transition: color 0.2s;
-}
-
-.links-row a:hover {
+.launcher-header h1 strong {
     color: var(--primary-card-bg);
-    text-decoration: underline;
+    font-weight: 800;
 }
 
-.links-row a::before {
-    content: "•";
-    margin-right: 8px;
-    color: #999;
+.launcher-header p {
+    color: #666;
+    font-size: 1.1rem;
 }
 
-.links-row a:first-child::before {
-    content: "";
-    margin-right: 0;
-}
-
-/* Right Panel (Iframe Login) */
-.login-panel {
-    flex: 1;
-    min-width: 450px;
-    background-color: #ffffff;
-    position: relative;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.03);
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: 20;
-}
-
-.login-panel iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Floating Toggle Button */
-.toggle-layout-btn {
-    position: absolute;
-    top: 16px;
-    left: -20px;
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 50%;
+.launcher-cards {
     display: flex;
+    gap: 20px;
     justify-content: center;
-    align-items: center;
+    margin-bottom: 40px;
+}
+
+.launcher-card {
+    flex: 1;
+    padding: 30px;
+    border-radius: 16px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: left;
+    min-width: 250px;
+}
+
+.launcher-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.launcher-card.primary-card {
+    background: linear-gradient(135deg, #4da7bb 0%, #3a97ab 100%);
+    color: white;
+}
+
+.launcher-card.secondary-card {
+    background-color: #dceef4;
+    color: #333;
+}
+
+.launcher-card img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+}
+
+.launcher-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.launcher-card p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.launcher-footer {
+    border-top: 1px solid #eee;
+    padding-top: 30px;
+}
+
+.popos-btn-large {
+    background-color: #48b9c7;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
     transition: all 0.2s ease;
-    color: #555;
 }
 
-.toggle-layout-btn:hover {
-    background-color: #f0f0f0;
+.popos-btn-large img {
+    width: 24px;
+    height: 24px;
+}
+
+.popos-btn-large:hover {
+    background-color: #38a5b2;
     transform: scale(1.05);
-}
-
-.app-container.collapsed .toggle-layout-btn {
-    left: 16px; /* Volta o botão para dentro da tela quando fechado */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
 /* Modal Overlay */
