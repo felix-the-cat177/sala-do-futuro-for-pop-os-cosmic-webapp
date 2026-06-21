@@ -9,6 +9,7 @@
   <br>
 
   <img alt="Sala do Futuro" src="resources/screenshots/Screenshot_2026-06-20_12-06-04.png" width="512">
+  <img alt="Sala do Futuro" src="resources/screenshots/como_ficou.png" width="512">
 
 <br><br><br>
 
