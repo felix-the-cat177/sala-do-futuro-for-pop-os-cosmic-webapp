@@ -61,7 +61,7 @@ fn main() -> cosmic::iced::Result {
                     window_title: Some("Sala do Futuro".to_string()),
                     url: Some(shell_url),
                     profile: profile_path,
-                    window_size: Some(sala_do_futuro_webapp::WindowSize(800, 600)),
+                    window_size: Some(sala_do_futuro_webapp::WindowSize(1024, 768)),
                     try_simulate_mobile: Some(false),
                 },
                 name: "Sala do Futuro".to_string(),
