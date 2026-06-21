@@ -35,28 +35,31 @@ mkdir -p $DEB_DIR/usr/share/icons/hicolor/scalable/apps
 mkdir -p $DEB_DIR/usr/share/sala-do-futuro-webapp/i18n
 mkdir -p $DEB_DIR/lib/systemd/user
 
+# Definir o diretório de destino baseado no CARGO_TARGET_DIR ou o padrão 'target'
+TARGET_DIR="${CARGO_TARGET_DIR:-target}"
+
 # Copiar binários principais (versão 1.1.0 com integração COSMIC)
 echo "Copiando binários..."
-cp target/release/$APP_NAME $DEB_DIR/usr/bin/
-cp target/release/cosmic-panel-item $DEB_DIR/usr/bin/
-cp target/release/sala-do-futuro-notification-daemon $DEB_DIR/usr/bin/
+cp $TARGET_DIR/release/$APP_NAME $DEB_DIR/usr/bin/
+cp $TARGET_DIR/release/cosmic-panel-item $DEB_DIR/usr/bin/
+cp $TARGET_DIR/release/sala-do-futuro-notification-daemon $DEB_DIR/usr/bin/
 
 # Copiar bibliotecas do CEF (necessárias para o navegador Chromium)
 echo "Copiando bibliotecas CEF..."
 mkdir -p $DEB_DIR/usr/share/cef
-CEF_SRC_DIR=$(find target -name "cef_linux_x86_64" -type d | head -n 1)
+CEF_SRC_DIR=$(find $TARGET_DIR -name "cef_linux_x86_64" -type d | head -n 1)
 if [ -n "$CEF_SRC_DIR" ] && [ -d "$CEF_SRC_DIR" ]; then
     cp -r $CEF_SRC_DIR/. $DEB_DIR/usr/share/cef/
     echo "Limpando símbolos de depuração pesados das bibliotecas do CEF..."
     strip --strip-unneeded $DEB_DIR/usr/share/cef/*.so 2>/dev/null || true
 else
-    echo "⚠️  AVISO: Diretório do CEF (cef_linux_x86_64) não encontrado em target!"
+    echo "⚠️  AVISO: Diretório do CEF (cef_linux_x86_64) não encontrado em $TARGET_DIR!"
 fi
 
 # Copiar os binários do webview e helper para o diretório do CEF com o nome do APP_ID esperado
 echo "Instalando webview e helper no diretório do CEF..."
-cp target/release/sala-do-futuro-webview $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview 2>/dev/null || true
-cp target/release/sala-do-futuro-webview-helper $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview-helper 2>/dev/null || true
+cp $TARGET_DIR/release/sala-do-futuro-webview $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview 2>/dev/null || true
+cp $TARGET_DIR/release/sala-do-futuro-webview-helper $DEB_DIR/usr/share/cef/dev.heppen.webapps.webview-helper 2>/dev/null || true
 
 # Criar link simbólico para o webview em /usr/bin
 echo "Criando link simbólico para o webview..."
