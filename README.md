@@ -63,7 +63,7 @@ Execute o script de construcao do pacote:
 Instale o pacote gerado:
 
 ```bash
-sudo dpkg -i sala-do-futuro-webapp_1.0.0_amd64.deb
+sudo apt install ./sala-do-futuro-webapp_1.0.0_amd64.deb
 ```
 
 # Uso
@@ -120,6 +120,7 @@ GPL-3.0-only - Mesmo licenciamento do projeto original.
 - [libcosmic](https://github.com/pop-os/libcosmic)
 - [Pop!_OS](https://pop.system76.com/)
 - [COSMIC Desktop](https://cosmic.system76.com/)
+- [Sala do Futuro site oficial da SEDUC](https://saladofuturo.educacao.sp.gov.br/)
 
 ---
 
