@@ -5143,7 +5143,7 @@ dependencies = [
 
 [[package]]
 name = "sala-do-futuro-webapp"
-version = "1.2.4"
+version = "1.2.9"
 dependencies = [
  "anyhow",
  "ashpd 0.13.11",

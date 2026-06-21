@@ -4,7 +4,7 @@
 set -e
 
 APP_NAME="sala-do-futuro-webapp"
-VERSION="1.2.9"
+VERSION="1.3.0"
 ARCH="amd64"
 
 echo "Construindo $APP_NAME versão $VERSION..."

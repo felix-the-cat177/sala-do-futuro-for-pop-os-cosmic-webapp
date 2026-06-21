@@ -3,34 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala do Futuro</title>
+    <title>Sala do Futuro - Pop!_OS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <nav class="sidebar">
-            <div class="sidebar-top">
-                <a href="#" class="icon-btn active" title="Sala do Futuro" onclick="navigate(this, 'https://saladofuturo.educacao.sp.gov.br/')">
-                    <img src="assets/logo.png" alt="Sala do Futuro">
-                </a>
-                <a href="#" class="icon-btn" title="Centro de Mídias SP (CMSP)" onclick="navigate(this, 'https://repositorio.educacao.sp.gov.br/')">
-                    <img src="assets/cmsp.png" alt="CMSP">
-                </a>
+    <div class="app-container launcher-mode">
+        <!-- Launcher Content -->
+        <main class="launcher-content">
+            <div class="launcher-header">
+                <img src="assets/sala-do-futuro.png" alt="Sala do Futuro Logo" class="main-logo">
+                <h1>Bem-vindo à <strong>Sala do Futuro</strong></h1>
+                <p>Selecione o ambiente virtual que deseja acessar:</p>
             </div>
-            <div class="sidebar-bottom">
-                <a href="#" class="icon-btn popos-btn" title="Sobre o Projeto" onclick="toggleModal()">
+
+            <div class="launcher-cards">
+                <div class="launcher-card primary-card" onclick="window.location.href='https://saladofuturo.educacao.sp.gov.br/'">
+                    <img src="assets/sala-do-futuro.png" alt="Sala do Futuro">
+                    <h3>Sala do Futuro</h3>
+                    <p>Acesse boletins, tarefas e a plataforma pedagógica oficial da SEDUC-SP.</p>
+                </div>
+
+                <div class="launcher-card secondary-card" onclick="window.location.href='https://repositorio.educacao.sp.gov.br/'">
+                    <img src="assets/cmsp.png" alt="CMSP" style="filter: invert(1);">
+                    <h3>Centro de Mídias (CMSP)</h3>
+                    <p>Acesse o repositório de vídeos, aulas e materiais do CMSP.</p>
+                </div>
+            </div>
+
+            <div class="launcher-footer">
+                <button class="popos-btn-large" onclick="toggleModal()">
                     <img src="assets/pop-os.svg" alt="Pop!_OS">
-                </a>
+                    <span>Sobre o Projeto & Manifesto</span>
+                </button>
             </div>
-        </nav>
-
-        <!-- Main Content Panel Removed per user request -->
-
-        <!-- Iframe (Right Panel - Login / Content) -->
-        <section class="login-panel">
-            <iframe id="main-frame" src="https://saladofuturo.educacao.sp.gov.br/" title="Conteúdo"></iframe>
-        </section>
+        </main>
 
         <!-- About Modal -->
         <div id="about-modal" class="modal-overlay">
@@ -42,7 +48,7 @@
                     <p><strong>Projeto:</strong> Sala do Futuro Nativa para Pop!_OS COSMIC<br>
                     <strong>Instituição Foco:</strong> Escola Estadual de São Paulo (Omitido por Privacidade)<br>
                     <strong>Desenvolvedor Responsável:</strong> Dixycat (felix-the-cat177)<br>
-                    <strong>Versão Homologada:</strong> 1.2.9 Stable<br>
+                    <strong>Versão Homologada:</strong> 1.3.0 Stable<br>
                     <strong>GitHub:</strong> <a href="https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp" target="_blank">felix-the-cat177/...</a></p>
 
                     <h3>🎯 Propósito do Projeto</h3>
@@ -51,7 +57,7 @@
                     <h3>🛑 O Diagnóstico: A Crise do Modelo Proprietário (Windows)</h3>
                     <p>A manutenção do ecossistema Windows nas escolas públicas gera prejuízos que vão muito além do orçamento financeiro, impactando diretamente a formação cognitiva dos estudantes e a segurança do Estado:</p>
                     <ol>
-                        <li><strong>Formação de Usuários Passivos (Alienamento Tecnológico):</strong> O modelo proprietário foi desenhado para criar consumidores, não criadores. Ao limitar a experiência digital a interfaces fechadas e engessadas, o sistema induz os alunos a acreditarem que a tecnologia se resume ao consumo de mídia. Isso sufoca o pensamento intuitivo, gerando frustração, lentidão operacional e comportamento apático ou reativo diante do computador.</li>
+                        <li><strong>Formação de Usuários Passivos (Alienamento Tecnológico):</strong> O modelo proprietário foi desenhado para criar consumidores, não criadores. Ao limitar a experiência digital a interfaces fechadas e engessadas, o sistema induz os alunos a acreditarem que a tecnologia se resume ao consumo de mídia. Isso sufoca o pensamento intuitivo, gerando frustração, lindidão operacional e comportamento apático ou reativo diante do computador.</li>
                         <li><strong>A Cultura do Medo e Padrões Obscuros (Dark Patterns):</strong> O Windows bombardeia o usuário comum com notificações intrusivas, insistência para assinaturas do Copilot, Microsoft 365 e armazenamento em nuvem pago. Essa insistência cria um trauma de usabilidade: as pessoas passam a ter medo de clicar em botões simples como "Avançar" ou "Próximo", temendo ativar cobranças ou configurações indesejadas. A interface se torna uma armadilha, não uma ferramenta de apoio.</li>
                         <li><strong>Obsolescência Programada e Descarte Artificial de Hardware:</strong> Com as exigências arbitrárias do Windows 11 (como a obrigatoriedade do chip de segurança TPM 2.0 e o bloqueio de processadores Intel anteriores à 8ª geração), aproximadamente 40% dos computadores funcionais do planeta foram condenados ao lixo eletrônico. No serviço público, isso significa descartar dinheiro do contribuinte. A própria comunidade técnica provou que essas limitações são artificiais ao criar travas de bypass, expondo a obsolescência como uma estratégia puramente comercial.</li>
                         <li><strong>Histórico de Falhas Catastróficas de Segurança:</strong> O ecossistema proprietário carrega décadas de débito técnico e vulnerabilidades críticas herdadas:
@@ -79,7 +85,7 @@
                     <p>O aplicativo Sala do Futuro for Pop!_OS COSMIC, desenvolvido em Rust, quebra esse ciclo de obsolescência e vulnerabilidade:</p>
                     <ul>
                         <li><strong>Código em Rust + COSMIC:</strong> Consumo drástico reduzido de RAM e processamento, fazendo Celerons e PCs antigos rodarem de forma instantânea.</li>
-                        <li><strong>Navegador CEF Integrado com Abas Amplas (Sala do Futuro + CMSP):</strong> Unifica o login da SEDUC e o Centro de Mídias em uma única interface acelerada. O aluno e o professor focam nos estudos, sem a bagunça de caçar links no navegador padrão.</li>
+                        <li><strong>Navegador Direto sem Bloqueios:</strong> Navegação 100% nativa que respeita os protocolos de segurança do estado, ao mesmo tempo que bloqueia vulnerabilidades clássicas de navegadores pesados.</li>
                         <li><strong>Aceleração de Hardware e API Vulkan:</strong> Desempenho gráfico direto na GPU integrada Intel, garantindo fluidez total na interface e carregamento de mídias pedagógicas pesadas sem engasgos.</li>
                         <li><strong>Soberania Open-Source:</strong> Imunidade total aos vírus clássicos de Windows, sem custos com licenças e sem telemetria oculta coletando dados de estudantes.</li>
                     </ul>
@@ -99,12 +105,6 @@
     </div>
 
     <script>
-        function toggleLayout() {
-            const container = document.querySelector('.app-container');
-            const icon = document.getElementById('toggle-icon');
-            container.classList.toggle('collapsed');
-            
-            if (container.classList.contains('collapsed')) {
                 // Seta indicando para a direita (para expandir)
                 icon.innerHTML = '<path d="M9 18l6-6-6-6"/>';
             } else {
