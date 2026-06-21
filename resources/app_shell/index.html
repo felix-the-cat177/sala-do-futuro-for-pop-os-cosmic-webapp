@@ -11,15 +11,15 @@
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
             <div class="sidebar-top">
-                <a href="#" class="icon-btn active" title="Sala do Futuro">
+                <a href="#" class="icon-btn active" title="Sala do Futuro" onclick="navigate(this, 'https://saladofuturo.educacao.sp.gov.br/')">
                     <img src="assets/logo.png" alt="Sala do Futuro">
                 </a>
-                <a href="#" class="icon-btn" title="Rede e Integração">
-                    <img src="assets/network.svg" alt="Rede">
+                <a href="#" class="icon-btn" title="Centro de Mídias SP (CMSP)" onclick="navigate(this, 'https://repositorio.educacao.sp.gov.br/')">
+                    <img src="assets/cmsp.png" alt="CMSP">
                 </a>
             </div>
             <div class="sidebar-bottom">
-                <a href="https://pop.system76.com" target="_blank" class="icon-btn popos-btn" title="Pop!_OS">
+                <a href="#" class="icon-btn popos-btn" title="Sobre o Projeto" onclick="toggleModal()">
                     <img src="assets/pop-os.svg" alt="Pop!_OS">
                 </a>
             </div>
@@ -61,21 +61,48 @@
                     <a href="https://intranet.educacao.sp.gov.br/" target="_blank">Intranet ↗</a>
                     <a href="https://atendimento.educacao.sp.gov.br/" target="_blank">Portal de Atendimento ↗</a>
                 </div>
-
-                <h3>Links Úteis</h3>
-                <div class="links-row">
-                    <a href="#" target="_blank">Inscrição para Rede Pública ↗</a>
-                    <a href="#" target="_blank">Consulta Certificação Exame Supletivo ↗</a>
-                    <a href="#" target="_blank">Concluintes ↗</a>
-                    <a href="#" target="_blank">Base de Conhecimento ↗</a>
-                </div>
             </div>
         </main>
 
-        <!-- Iframe (Right Panel - Login) -->
+        <!-- Iframe (Right Panel - Login / Content) -->
         <section class="login-panel">
-            <iframe src="https://saladofuturo.educacao.sp.gov.br/escolha-de-perfil" title="Login Sala do Futuro"></iframe>
+            <iframe id="main-frame" src="https://saladofuturo.educacao.sp.gov.br/" title="Conteúdo"></iframe>
         </section>
+
+        <!-- About Modal -->
+        <div id="about-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Sobre o Projeto</h2>
+                <div class="modal-body">
+                    <img src="assets/pop-os.svg" alt="Pop!_OS Logo" class="modal-logo">
+                    <p><strong>App:</strong> Sala do Futuro for Pop!_OS COSMIC</p>
+                    <p><strong>Criador:</strong> Dixycat</p>
+                    <p><strong>Versão:</strong> 1.2.4</p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/felix-the-cat177/sala-do-futuro-for-pop-os-cosmic-webapp" target="_blank">felix-the-cat177/...</a></p>
+                </div>
+                <button class="close-btn" onclick="toggleModal()">Fechar</button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function navigate(btn, url) {
+            // Remove active de todos
+            document.querySelectorAll('.sidebar-top .icon-btn').forEach(el => el.classList.remove('active'));
+            // Adiciona active no clicado
+            btn.classList.add('active');
+            // Muda o iframe
+            document.getElementById('main-frame').src = url;
+        }
+
+        function toggleModal() {
+            const modal = document.getElementById('about-modal');
+            if (modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'flex';
+            }
+        }
+    </script>
 </body>
 </html>
