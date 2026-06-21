@@ -38,6 +38,24 @@ body {
     padding: 16px 0;
     box-shadow: 2px 0 5px rgba(0,0,0,0.05);
     z-index: 10;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Collapsed State */
+.app-container.collapsed .sidebar {
+    width: 0;
+    padding: 0;
+    opacity: 0;
+}
+
+.app-container.collapsed .content-panel {
+    flex: 0;
+    padding: 0;
+    opacity: 0;
+    min-width: 0;
+    margin: 0;
 }
 
 .sidebar-top, .sidebar-bottom {
@@ -90,6 +108,8 @@ body {
     gap: 20px;
     overflow-y: auto;
     background-color: #f8f9fa;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    min-width: 300px;
 }
 
 .info-card {
@@ -199,12 +219,43 @@ body {
     background-color: #ffffff;
     position: relative;
     box-shadow: -5px 0 15px rgba(0,0,0,0.03);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .login-panel iframe {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* Floating Toggle Button */
+.toggle-layout-btn {
+    position: absolute;
+    top: 16px;
+    left: -20px;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    transition: all 0.2s ease;
+    color: #555;
+}
+
+.toggle-layout-btn:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+}
+
+.app-container.collapsed .toggle-layout-btn {
+    left: 16px; /* Volta o botão para dentro da tela quando fechado */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
 /* Modal Overlay */

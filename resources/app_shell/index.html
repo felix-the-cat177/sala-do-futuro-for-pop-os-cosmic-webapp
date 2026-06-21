@@ -66,6 +66,9 @@
 
         <!-- Iframe (Right Panel - Login / Content) -->
         <section class="login-panel">
+            <button class="toggle-layout-btn" onclick="toggleLayout()" title="Ocultar/Mostrar Menus">
+                <svg id="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
             <iframe id="main-frame" src="https://saladofuturo.educacao.sp.gov.br/" title="Conteúdo"></iframe>
         </section>
 
@@ -86,6 +89,20 @@
     </div>
 
     <script>
+        function toggleLayout() {
+            const container = document.querySelector('.app-container');
+            const icon = document.getElementById('toggle-icon');
+            container.classList.toggle('collapsed');
+            
+            if (container.classList.contains('collapsed')) {
+                // Seta indicando para a direita (para expandir)
+                icon.innerHTML = '<path d="M9 18l6-6-6-6"/>';
+            } else {
+                // Seta indicando para a esquerda (para recolher)
+                icon.innerHTML = '<path d="M15 18l-6-6 6-6"/>';
+            }
+        }
+
         function navigate(btn, url) {
             // Remove active de todos
             document.querySelectorAll('.sidebar-top .icon-btn').forEach(el => el.classList.remove('active'));
