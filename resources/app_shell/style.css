@@ -278,16 +278,20 @@ body {
 
 .modal-content {
     background-color: white;
-    padding: 30px;
+    padding: 40px;
     border-radius: 12px;
-    width: 350px;
-    text-align: center;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: left;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 .modal-content h2 {
     margin-bottom: 20px;
     color: var(--primary-card-bg);
+    text-align: center;
 }
 
 .modal-body {
@@ -297,9 +301,35 @@ body {
     line-height: 1.6;
 }
 
+.modal-body h3 {
+    color: var(--primary-card-bg);
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.modal-body p {
+    margin-bottom: 15px;
+}
+
+.modal-body ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.modal-body li {
+    margin-bottom: 8px;
+}
+
 .modal-logo {
     width: 64px;
-    margin-bottom: 15px;
+    margin: 0 auto 20px auto;
+    display: block;
+}
+
+.close-btn-container {
+    text-align: center;
+    margin-top: 30px;
 }
 
 .close-btn {
